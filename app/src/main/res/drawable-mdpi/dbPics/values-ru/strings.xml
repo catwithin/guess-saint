@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--table names-->
+    <string name="saints_translation_table_name">saints_ru</string>
+
+<!--main screen-->
+    <string name="high_score">ваш лучший результат</string>
+    <string name="button_start">Начать</string>
+    <string name="button_info">Список святых</string>
+
+<!--menu items -->
+    <string name="action_settings">Настройки</string>
+    <string name="action_feedback">Отправить отзыв</string>
+
+<!--settings screen-->
+    <string name="settings_auto_next">Авто-клик на "далее"</string>
+    <string name="settings_auto_next_on">Следующий вопрос показывается сразу после нажатия на кнопку "далее"</string>
+    <string name="settings_auto_next_off">Нужно нажать "далее" дважды чтобы перейти к следующему вопросу</string>
+    <!--christmas 2017 special-->
+    <string name="settings_christmas_done">Рождественский квест завершен</string>
+    <string name="settings_christmas_done_on">Показываются только обычные картины</string>
+    <string name="settings_christmas_done_off">Показываются рождественские картины с волхвами</string>
+
+<!--guess saint screen-->
+    <string name="score_message">Счет: %.0f%%</string>
+    <string name="default_score_message">Счет: 0%</string>
+    <string name="answer_correct">Правильно!</string>
+    <string name="answer_wrong">Это был\u0020</string>
+    <string name="button_exit">выход</string>
+    <string name="button_next">далее</string>
+
+<!--in case db is empty-->
+    <string name="empty_view_text">База данных выглядит пустой</string>
+    <string name="empty_view_title_text">Что-то пошло не так…</string>
+
+
+<!--saint info screen-->
+    <string name="info_screen_header">Краткая информация</string>
+    <string name="saint_info_attributes_list_prefix">Атрибуты:\u0020</string>
+    <string name="view_wiki">открыть википедию</string>
+
+
+<!--feedback email-->
+    <string name="feedback_request_subject">Отзыв о Guess Saint</string>
+    <string name="feedback_request_text">Вопрос, запрос на новую функцию, отчет об ошибке или просто ваши мысли - мы рады получить любой отклик от вас. Спасибо!</string>
+
+
+<!--toast messages-->
+    <string name="no_answer_toast_text">Пожалуйста, выберите сначала свой ответ</string>
+
+    <string name="unsupported_action_begining">Не настроен</string>
+    <string name="unsupported_action_ending">. :(</string>
+    <string name="unsupported_action_default_text">Что-то пошло не так.</string>
+
+    <string name="unsupported_action_name_email">о email приложение</string>
+    <string name="unsupported_action_name_browser">\u0020браузер</string>
+    
+</resources>

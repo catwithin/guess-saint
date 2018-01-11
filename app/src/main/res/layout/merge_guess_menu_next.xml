@@ -1,0 +1,59 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <RelativeLayout
+            android:id="@+id/guess_menu"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+
+            android:background="@color/color_primary_dark"
+            android:layout_alignParentBottom="true"
+
+            android:layout_gravity="bottom">
+            <Button
+                android:id="@+id/guess_menu_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:theme="@style/Button"
+
+                android:text="@string/button_exit"
+                android:drawableLeft="@drawable/ic_navigate_before_white_24px"
+                android:drawableStart="@drawable/ic_navigate_before_white_24px"
+
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                />
+
+            <TextView
+                android:id="@+id/guess_menu_score"
+                android:text="@string/default_score_message"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+
+                android:textSize="20sp"
+                android:textColor="@color/color_text_main_screen"
+                android:gravity="center"
+
+                android:layout_centerHorizontal="true"
+                />
+            <Button
+                android:id="@+id/guess_menu_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:theme="@style/Button"
+
+                android:text="@string/button_next"
+
+                android:drawablePadding="1dp"
+                android:drawableRight="@drawable/ic_navigate_next_white_24px"
+                android:drawableEnd="@drawable/ic_navigate_next_white_24px"
+
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                />
+        </RelativeLayout>
+
+</merge>

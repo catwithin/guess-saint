@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Guess Saint</string>
+
+<!--table names-->
+    <string name="saints_translation_table_name">saints_default</string>
+
+<!--main screen-->
+    <string name="score_main_screen" translatable="false">%.0f%%</string>
+    <string name="default_high_score_value" translatable="false">0%</string>
+    <string name="high_score">best score</string>
+    <string name="button_start">Start quiz</string>
+    <string name="button_info">List of Saints</string>
+
+
+<!--menu items -->
+    <string name="action_settings">Settings</string>
+    <string name="action_feedback">Send feedback</string>
+
+<!--settings screen-->
+    <string name="settings_auto_next">Auto click on Next</string>
+    <string name="settings_auto_next_on">New question is shown automatically after clicking Next</string>
+    <string name="settings_auto_next_off">You should click Next twice to see next question</string>
+    <!--christmas 2017 special-->
+    <string name="settings_christmas_done">Christmass special completed</string>
+    <string name="settings_christmas_done_on">Show original Saints paintings</string>
+    <string name="settings_christmas_done_off">Show Christmas Magi paintings</string>
+
+
+<!--guess saint screen-->
+    <string name="score_message">Your score: %.0f%%</string>
+    <string name="default_score_message">Your score: 0%</string>
+    <string name="answer_correct">Correct!</string>
+    <string name="answer_wrong">It was \u0020</string>
+    <string name="button_exit">exit</string>
+    <string name="button_next">next</string>
+
+    <!--in case db is empty-->
+    <string name="empty_view_text">Database seems empty</string>
+    <string name="empty_view_title_text">Oops, something went wrong…</string>
+
+
+<!--saint info screen-->
+    <string name="info_screen_header">Short information</string>
+    <string name="saint_info_attributes_list_prefix">Attributes:\u0020</string>
+    <string name="view_wiki">read wikipedia article</string>
+
+
+<!--feedback email-->
+    <string name="feedback_request_subject">Guess Saint feedback</string>
+    <string name="feedback_request_text">Whether it is a question, feature request, a bug report or just your thoughts, we will be happy to receive your feedback. Thank you!</string>
+
+
+<!--toast messages-->
+    <string name="no_answer_toast_text">Please, choose your answer first</string>
+
+    <string name="unsupported_action_begining">There is no \u0020</string>
+    <string name="unsupported_action_ending">\u0020 app configured. :(</string>
+    <string name="unsupported_action_default_text">Something went wrong</string>
+
+    <string name="unsupported_action_name_email">email</string>
+    <string name="unsupported_action_name_browser">browser</string>
+
+</resources>

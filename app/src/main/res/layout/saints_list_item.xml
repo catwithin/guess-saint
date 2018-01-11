@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/min_height_list_item"
+    >
+
+    <!--icon-->
+    <ImageView
+        android:id="@+id/list_saint_icon"
+        android:layout_gravity="start"
+        android:layout_height="@dimen/min_height_list_item"
+        android:layout_width="@dimen/min_height_list_item"
+        android:src="@drawable/app_icon"
+        />
+
+    <!--name and attributes-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_padding_small"
+        android:paddingRight="@dimen/activity_padding"
+        android:paddingEnd="@dimen/activity_padding"
+        >
+
+
+        <TextView
+            android:id="@+id/list_saint_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="bold"
+            android:textColor="@color/color_primary_text_dark"
+            android:textSize="24sp"
+            tools:text="aaaaa Name"
+            />
+
+        <TextView
+            android:id="@+id/list_saint_attributes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/color_primary_text_dark"
+            tools:text="attributes, attributes, more attributes"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

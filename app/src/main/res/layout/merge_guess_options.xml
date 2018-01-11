@@ -1,0 +1,106 @@
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--TODO: Maybe one day i'll learn how to do unique ids in includes without this ugly repeating -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ToggleButton
+            android:id="@+id/guess_button1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:textColor="@drawable/guess_button_text_color"
+
+            android:background="@drawable/guess_button"
+        />
+
+        <View
+            android:id="@+id/guess_line1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/guess_line_height"
+            android:background="@android:color/white"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/guess_button1"
+            />
+
+        <ToggleButton
+            android:id="@+id/guess_button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:textColor="@drawable/guess_button_text_color"
+
+            android:background="@drawable/guess_button"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/guess_line1"
+            />
+
+        <View
+            android:id="@+id/guess_line2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/guess_line_height"
+            android:background="@android:color/white"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/guess_button2"
+            />
+
+        <ToggleButton
+            android:id="@+id/guess_button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:textColor="@drawable/guess_button_text_color"
+
+            android:background="@drawable/guess_button"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/guess_line2"
+            />
+        <View
+            android:id="@+id/guess_line3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/guess_line_height"
+            android:background="@android:color/white"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/guess_button3"
+            />
+
+
+        <ToggleButton
+            android:id="@+id/guess_button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:textColor="@drawable/guess_button_text_color"
+
+            android:background="@drawable/guess_button"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/guess_line3"
+            />
+        <View
+            android:id="@+id/guess_line4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/guess_line_height"
+            android:background="@android:color/white"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/guess_button4"
+            />
+    </RelativeLayout>
+
+</merge>
