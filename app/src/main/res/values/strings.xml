@@ -21,10 +21,6 @@
     <string name="settings_auto_next">Auto click on Next</string>
     <string name="settings_auto_next_on">New question is shown automatically after clicking Next</string>
     <string name="settings_auto_next_off">You should click Next twice to see next question</string>
-    <!--christmas 2017 special-->
-    <string name="settings_christmas_done">Christmass special completed</string>
-    <string name="settings_christmas_done_on">Show original Saints paintings</string>
-    <string name="settings_christmas_done_off">Show Christmas Magi paintings</string>
 
 
 <!--guess saint screen-->

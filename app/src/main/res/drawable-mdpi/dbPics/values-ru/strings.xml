@@ -17,10 +17,7 @@
     <string name="settings_auto_next">Авто-клик на "далее"</string>
     <string name="settings_auto_next_on">Следующий вопрос показывается сразу после нажатия на кнопку "далее"</string>
     <string name="settings_auto_next_off">Нужно нажать "далее" дважды чтобы перейти к следующему вопросу</string>
-    <!--christmas 2017 special-->
-    <string name="settings_christmas_done">Рождественский квест завершен</string>
-    <string name="settings_christmas_done_on">Показываются только обычные картины</string>
-    <string name="settings_christmas_done_off">Показываются рождественские картины с волхвами</string>
+
 
 <!--guess saint screen-->
     <string name="score_message">Счет: %.0f%%</string>

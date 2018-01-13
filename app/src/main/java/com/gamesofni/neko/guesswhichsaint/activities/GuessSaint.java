@@ -56,8 +56,6 @@ public class GuessSaint extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private boolean autoNext;
-    private boolean christmasDone;
-    private int christmasCorrectCount = 0;
     private static final Random ran = new Random();
 
     private int correctChoiceColor;
@@ -74,7 +72,6 @@ public class GuessSaint extends AppCompatActivity {
     private static final String CORRECT_CHOICE = "correctChoice";
 
     public static final int SCORE_MIN_GUESSES = 5;
-    public static final int CHRISTMAS_CORRECT_ANSWERS = 21;
 
 
     @Override
@@ -82,9 +79,9 @@ public class GuessSaint extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setUp();
 
-//        if (saintIds.size() < 4) {
-//            return;
-//        }
+        if (saintIds.size() < 4) {
+            return;
+        }
 
         if (savedInstanceState == null) {
             setQuestion();
@@ -94,8 +91,6 @@ public class GuessSaint extends AppCompatActivity {
     private void setUp() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         autoNext = sharedPreferences.getBoolean("autoNext", false);
-        christmasDone = sharedPreferences.getBoolean("christmasDone", false);
-        christmasCorrectCount = sharedPreferences.getInt("christmasCorrectCount", 0);
 
         Map<String, Map <Long, String>> allSaintsIdToNames = SaintsDbQuery.getAllSaintsIdToNames(this);
 
@@ -105,23 +100,17 @@ public class GuessSaint extends AppCompatActivity {
 
         saintIds = new HashSet<>();
 
-        if (christmasDone) {
-            saintIds.addAll(saintIdsToNamesFemale.keySet());
-            saintIds.addAll(saintIdsToNamesMale.keySet());
-            saintIds.addAll(saintIdsToNamesMagi.keySet());
-            if (saintIds.size() < 4) {
-                setContentView(R.layout.empty_db);
-                return;
-            }
-        } else {
-            saintIds.addAll(saintIdsToNamesMagi.keySet());
+        saintIds.addAll(saintIdsToNamesFemale.keySet());
+        saintIds.addAll(saintIdsToNamesMale.keySet());
+        saintIds.addAll(saintIdsToNamesMagi.keySet());
+        if (saintIds.size() < 4) {
+            setContentView(R.layout.empty_db);
+            return;
         }
 
         setContentView(R.layout.activity_guess);
 
         pictureView = (PhotoView) findViewById(R.id.guessMergeImageView);
-
-//        pictureView = (ImageView) findViewById(R.id.guessMergeImageView);
         scoreView = (TextView) findViewById(R.id.guess_menu_score);
 
         correctChoiceColor = getResources().getColor(R.color.awesome_green);
@@ -205,13 +194,6 @@ public class GuessSaint extends AppCompatActivity {
         }
         outState.putSerializable(BUTTON_NAMES, buttonNames);
 
-        if (!christmasDone && christmasCorrectCount > CHRISTMAS_CORRECT_ANSWERS) {
-            SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-            prefEditor.putInt("christmasCorrectCount", 0);
-            prefEditor.putBoolean("christmasDone", true);
-            prefEditor.apply();
-        }
-
         super.onSaveInstanceState(outState);
     }
 
@@ -225,7 +207,6 @@ public class GuessSaint extends AppCompatActivity {
 
         // save stats to preferences
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-        prefEditor.putInt("christmasCorrectCount", christmasCorrectCount);
 
         // save score to prefs only if got higher
         float savedScore = sharedPreferences.getFloat("score", 0.0f);
@@ -251,16 +232,12 @@ public class GuessSaint extends AppCompatActivity {
 
         correctChoice = ran.nextInt(buttons.size());
 
-        if (christmasDone) {
-            if (correctSaint.getGender().equals(SaintsContract.GENDER_FEMALE)) {
-                saintsListIds = new ArrayList<>(saintIdsToNamesFemale.keySet());
-            } else if (CATEGORY_MAGI.equals(correctSaint.getCategory())) {
-                saintsListIds = new ArrayList<>(saintIdsToNamesMagi.keySet());
-            } else {
-                saintsListIds = new ArrayList<>(saintIdsToNamesMale.keySet());
-            }
-        } else {
+        if (correctSaint.getGender().equals(SaintsContract.GENDER_FEMALE)) {
+            saintsListIds = new ArrayList<>(saintIdsToNamesFemale.keySet());
+        } else if (CATEGORY_MAGI.equals(correctSaint.getCategory())) {
             saintsListIds = new ArrayList<>(saintIdsToNamesMagi.keySet());
+        } else {
+            saintsListIds = new ArrayList<>(saintIdsToNamesMale.keySet());
         }
         saintsListIds.remove(correctSaintId);
 
@@ -309,9 +286,7 @@ public class GuessSaint extends AppCompatActivity {
         final boolean correctAnswer = userChoiceId == correctChoice;
         if (correctAnswer) {
             correctAnswers++;
-            if (!christmasDone) {
-                christmasCorrectCount += 1;
-            }
+
         } else {
             buttons.get(userChoiceId).setBackgroundColor(wrongChoiceColor);
             wrongAnswers++;
