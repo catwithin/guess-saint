@@ -44,7 +44,7 @@
 
 <!--feedback email-->
     <string name="feedback_request_subject">Guess Saint feedback</string>
-    <string name="feedback_request_text">Whether it is a question, feature request, a bug report or just your thoughts, we will be happy to receive your feedback. Thank you!</string>
+    <string name="feedback_request_text">Whether it is a question, feature request, report that a depicted saint is someone else, a bug report or just your thoughts, we will be happy to receive your feedback. Thank you!</string>
 
 
 <!--toast messages-->

@@ -40,7 +40,7 @@
 
 <!--feedback email-->
     <string name="feedback_request_subject">Отзыв о Guess Saint</string>
-    <string name="feedback_request_text">Вопрос, запрос на новую функцию, отчет об ошибке или просто ваши мысли - мы рады получить любой отклик от вас. Спасибо!</string>
+    <string name="feedback_request_text">Вопрос, запрос на новую функцию, несогласие с тем, кто изображен на картине, отчет об ошибке или просто ваши мысли - мы рады получить любой отклик от вас. Спасибо!</string>
 
 
 <!--toast messages-->
