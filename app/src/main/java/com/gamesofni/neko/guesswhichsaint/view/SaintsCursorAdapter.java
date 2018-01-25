@@ -18,7 +18,7 @@ import com.gamesofni.neko.guesswhichsaint.data.Saint;
 import static com.gamesofni.neko.guesswhichsaint.data.Saint.convertSaintFromCursorOnPosition;
 
 public class SaintsCursorAdapter extends CursorAdapter{
-// TODO: when coming bk from list item info view the list is on top, better would be on same position
+// TODO: when coming bk from list item info view the list is on top, better would be on same position - only for our button, hardware back works great
     // TODO: deprecated, "As an alternative, use android.app.LoaderManager with a android.content.CursorLoader"
     public SaintsCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
@@ -31,9 +31,9 @@ public class SaintsCursorAdapter extends CursorAdapter{
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView name = (TextView) view.findViewById(id.list_saint_name);
-        TextView attributes = (TextView) view.findViewById(id.list_saint_attributes);
-        ImageView icon = (ImageView) view.findViewById(id.list_saint_icon);
+        TextView name = view.findViewById(id.list_saint_name);
+        TextView attributes = view.findViewById(id.list_saint_attributes);
+        ImageView icon = view.findViewById(id.list_saint_icon);
 
         final Saint saint = convertSaintFromCursorOnPosition(cursor, context);
         name.setText(saint.getName());

@@ -8,7 +8,6 @@ import android.support.v7.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -92,7 +91,8 @@ public class GuessSaint extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         autoNext = sharedPreferences.getBoolean("autoNext", false);
 
-        Map<String, Map <Long, String>> allSaintsIdToNames = SaintsDbQuery.getAllSaintsIdToNames(this);
+        SaintsDbQuery db = new SaintsDbQuery();
+        Map<String, Map <Long, String>> allSaintsIdToNames = db.getAllSaintsIdToNames(this);
 
         saintIdsToNamesFemale = allSaintsIdToNames.get(FEMALE_KEY);
         saintIdsToNamesMale = allSaintsIdToNames.get(MALE_KEY);
@@ -110,15 +110,15 @@ public class GuessSaint extends AppCompatActivity {
 
         setContentView(R.layout.activity_guess);
 
-        pictureView = (PhotoView) findViewById(R.id.guessMergeImageView);
-        scoreView = (TextView) findViewById(R.id.guess_menu_score);
+        pictureView = findViewById(R.id.guessMergeImageView);
+        scoreView = findViewById(R.id.guess_menu_score);
 
         correctChoiceColor = getResources().getColor(R.color.awesome_green);
         wrongChoiceColor = getResources().getColor(R.color.bad_red);
 
         setUpButtons();
 
-        Button guessActivityCheckButton = (Button) findViewById(R.id.guess_menu_next);
+        Button guessActivityCheckButton = findViewById(R.id.guess_menu_next);
         guessActivityCheckButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View view) {
@@ -126,7 +126,7 @@ public class GuessSaint extends AppCompatActivity {
             }
         });
 
-        final Button guessActivityBackButton = (Button) findViewById(R.id.guess_menu_back);
+        final Button guessActivityBackButton = findViewById(R.id.guess_menu_back);
         guessActivityBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View view) {
@@ -223,7 +223,9 @@ public class GuessSaint extends AppCompatActivity {
         ArrayList<Long> saintsListIds = new ArrayList<>(saintIds);
 
         final long correctSaintId = saintsListIds.remove(ran.nextInt(saintsListIds.size()));
-        final Saint correctSaint = Saint.convertSaintFromCursor(SaintsDbQuery.getSaint(this, correctSaintId), this);
+
+        SaintsDbQuery db = new SaintsDbQuery();
+        final Saint correctSaint = Saint.convertSaintFromCursor(db.getSaint(this, correctSaintId), this);
         this.correctSaintName = correctSaint.getName();
 
         ArrayList<Integer> pictureUrls = correctSaint.getPaintings();
@@ -338,7 +340,7 @@ public class GuessSaint extends AppCompatActivity {
     }
 
     private void setUpButton(CompoundButton.OnCheckedChangeListener onCheckedChangeListener, int guess_button_id) {
-        ToggleButton guessButton = (ToggleButton) findViewById(guess_button_id);
+        ToggleButton guessButton = findViewById(guess_button_id);
         guessButton.setOnCheckedChangeListener(onCheckedChangeListener);
         buttons.add(guessButton);
     }

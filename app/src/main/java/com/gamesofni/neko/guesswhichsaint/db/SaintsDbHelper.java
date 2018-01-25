@@ -19,9 +19,9 @@ public class SaintsDbHelper extends SQLiteAssetHelper {
     private static final String SQL_DROP_SAINTS_RU =
             "DROP TABLE IF EXISTS saints_ru; ";
 
-    public static final String TAG = SaintsDbHelper.class.getSimpleName();
+    private static final String TAG = SaintsDbHelper.class.getSimpleName();
 
-    public SaintsDbHelper(Context context) {
+    SaintsDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         setForcedUpgrade();
     }

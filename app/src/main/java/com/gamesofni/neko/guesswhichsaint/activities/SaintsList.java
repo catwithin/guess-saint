@@ -9,20 +9,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.gamesofni.neko.guesswhichsaint.R;
+import com.gamesofni.neko.guesswhichsaint.db.SaintsDbQuery;
 import com.gamesofni.neko.guesswhichsaint.view.SaintsCursorAdapter;
-
-import static com.gamesofni.neko.guesswhichsaint.db.SaintsDbQuery.getAllSaintsWithIcons;
 
 
 public class SaintsList extends AppCompatActivity {
-
-    private ListView saintsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Cursor cursor = getAllSaintsWithIcons(this);
+        SaintsDbQuery db = new SaintsDbQuery();
+        Cursor cursor = db.getAllSaintsWithIcons(this);
 
         if (cursor.getCount() < 1) {
             setContentView(R.layout.empty_db);
@@ -31,7 +29,7 @@ public class SaintsList extends AppCompatActivity {
 
         setContentView(R.layout.activity_list_saints);
 
-        saintsList = (ListView) findViewById(R.id.activity_list_saints);
+        ListView saintsList = findViewById(R.id.activity_list_saints);
         SaintsCursorAdapter saintsCursorAdapter = new SaintsCursorAdapter(this, cursor);
         saintsList.setAdapter(saintsCursorAdapter);
         saintsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -22,7 +22,7 @@ public class Saint {
     private String category;
 
 
-    public Saint(long id, String name, ArrayList<Integer> paintings, ArrayList<String> attributes, int icon, String info, String wikiUrl, Integer gender, String category) {
+    private Saint(long id, String name, ArrayList<Integer> paintings, ArrayList<String> attributes, int icon, String info, String wikiUrl, Integer gender, String category) {
         this.id = id;
         this.name = name;
         this.paintings = paintings;

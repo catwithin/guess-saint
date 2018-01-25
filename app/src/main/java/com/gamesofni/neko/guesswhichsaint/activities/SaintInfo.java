@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.gamesofni.neko.guesswhichsaint.R;
 import com.gamesofni.neko.guesswhichsaint.data.Saint;
+import com.gamesofni.neko.guesswhichsaint.db.SaintsDbQuery;
 
-import static com.gamesofni.neko.guesswhichsaint.db.SaintsDbQuery.getSaint;
 import static com.gamesofni.neko.guesswhichsaint.utils.Utils.checkSupportedAction;
 import static com.gamesofni.neko.guesswhichsaint.utils.Utils.showClientsMsg;
 import static com.gamesofni.neko.guesswhichsaint.utils.Utils.showNoAppClientsMsg;
@@ -38,12 +38,13 @@ public class SaintInfo extends AppCompatActivity {
             return;
         }
 
-        TextView saint_name = (TextView) findViewById(R.id.saint_name);
-        TextView saint_description = (TextView) findViewById(R.id.saint_description);
-        TextView saint_attributes = (TextView) findViewById(R.id.saint_attributes);
-        ImageView saint_icon = (ImageView) findViewById(R.id.info_saint_icon);
+        TextView saint_name = findViewById(R.id.saint_name);
+        TextView saint_description = findViewById(R.id.saint_description);
+        TextView saint_attributes = findViewById(R.id.saint_attributes);
+        ImageView saint_icon = findViewById(R.id.info_saint_icon);
 
-        Saint saint = Saint.convertSaintFromCursor(getSaint(this, saintId), this);
+        SaintsDbQuery db = new SaintsDbQuery();
+        Saint saint = Saint.convertSaintFromCursor(db.getSaint(this, saintId), this);
 
         if (saint == null) {
             return;
@@ -58,7 +59,7 @@ public class SaintInfo extends AppCompatActivity {
         saint_attributes.setText(attributes);
 
         final String wikiUrl = saint.getWikiUrl();
-        Button wikiButton = (Button) findViewById(R.id.wiki_article_button);
+        Button wikiButton = findViewById(R.id.wiki_article_button);
         wikiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

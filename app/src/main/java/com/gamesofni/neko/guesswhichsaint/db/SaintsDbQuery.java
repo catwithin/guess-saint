@@ -3,7 +3,6 @@ package com.gamesofni.neko.guesswhichsaint.db;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,11 +16,11 @@ public class SaintsDbQuery {
     public static final String MALE_KEY = "male";
     public static final String FEMALE_KEY = "female";
 
-    private SaintsDbQuery() {}
+    public SaintsDbQuery() {}
 
-    private static SaintsDbHelper saintsDbHelper;
+    private SaintsDbHelper saintsDbHelper;
 
-    private static synchronized SaintsDbHelper getSaintsDbHelper(Context context)
+    private synchronized SaintsDbHelper getSaintsDbHelper(Context context)
     {
         if (saintsDbHelper == null)
             saintsDbHelper = new SaintsDbHelper(context);
@@ -34,7 +33,7 @@ public class SaintsDbQuery {
         return SaintsContract.SaintEntry.TABLE_NAME + " , " + context.getString(SaintsContract.SaintTranslation.TABLE_NAME);
     }
 
-    public static Cursor getAllSaintsWithIcons(Context context) {
+    public Cursor getAllSaintsWithIcons(Context context) {
         String[] projection = {
             SaintsContract.SaintEntry._ID,
             SaintsContract.SaintEntry.ICON,
@@ -55,7 +54,7 @@ public class SaintsDbQuery {
         );
     }
 
-    private static Cursor queryAllSaintsWithCategories(Context context) {
+    private Cursor queryAllSaintsWithCategories(Context context) {
         String[] projection = {
             SaintsContract.SaintEntry._ID,
             SaintsContract.SaintTranslation.NAME,
@@ -72,22 +71,7 @@ public class SaintsDbQuery {
         );
     }
 
-    private static Cursor queryAllSaintIdsNames(Context context, String selection) {
-        String[] projection = {
-            SaintsContract.SaintEntry._ID,
-            SaintsContract.SaintTranslation.NAME
-        };
-        // TODO: do in another thread
-        return getDb(context).query(
-            saintsJoinedTranslationTable(context),
-            projection,
-            JOIN_TRANSLATION_CONDITION + " AND " + selection,
-            null, null, null, null
-        );
-    }
-
-
-    public static Map<String, Map<Long, String>> getAllSaintsIdToNames(Context context) {
+    public Map<String, Map<Long, String>> getAllSaintsIdToNames(Context context) {
         Cursor cursor =  queryAllSaintsWithCategories(context);
 
         HashMap<Long, String> saintIdsToNamesMale = new HashMap<>();
@@ -125,38 +109,11 @@ public class SaintsDbQuery {
         return allSaintsGrouped;
     }
 
-
-    public static HashMap<Long, String> getAllSaintIdToNameFemales(Context context) {
-        final String selection = SaintsContract.SaintEntry.GENDER + " = " + String.valueOf(SaintsContract.GENDER_FEMALE);
-        return getAllSaintIdsNamesForSelection(context, selection);
-    }
-
-    public static HashMap<Long, String> getAllSaintIdToNameMales(Context context) {
-        final String selection = SaintsContract.SaintEntry.GENDER + " = " + String.valueOf(SaintsContract.GENDER_MALE);
-        return getAllSaintIdsNamesForSelection(context, selection);
-    }
-
-
-    private static HashMap<Long, String> getAllSaintIdsNamesForSelection(Context context, String selection) {
-        Cursor cursor = queryAllSaintIdsNames(context, selection);
-        HashMap<Long, String> saintIdsNames = new HashMap<>();
-        try {
-            while (cursor.moveToNext()) {
-                long itemId = cursor.getLong(cursor.getColumnIndexOrThrow(SaintsContract.SaintEntry._ID));
-                String saintName = cursor.getString(cursor.getColumnIndexOrThrow(SaintsContract.SaintTranslation.NAME));
-                saintIdsNames.put(itemId, saintName);
-            }
-        } finally {
-            cursor.close();
-        }
-        return saintIdsNames;
-    }
-
-    private static SQLiteDatabase getDb(Context context) {
+    private SQLiteDatabase getDb(Context context) {
         return getSaintsDbHelper(context).getReadableDatabase();
     }
 
-    public static Cursor getSaint(Context context, long id) {
+    public Cursor getSaint(Context context, long id) {
         final String[] projection = {
                 SaintsContract.SaintEntry._ID,
                 SaintsContract.SaintTranslation.NAME,
@@ -180,10 +137,4 @@ public class SaintsDbQuery {
         );
     }
 
-    public static int getSaintsCount(Context context) {
-        return (int) DatabaseUtils.queryNumEntries(
-            getDb(context),
-            SaintsContract.SaintEntry.TABLE_NAME
-        );
-    }
 }
