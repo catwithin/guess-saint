@@ -4,6 +4,12 @@ package com.gamesofni.neko.guesswhichsaint.db;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
+import android.text.TextUtils;
+import com.gamesofni.neko.guesswhichsaint.data.Saint;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import static com.gamesofni.neko.guesswhichsaint.db.SaintsContract.CATEGORY_MAGI;
@@ -113,11 +119,18 @@ public class SaintsDbQuery {
         return getSaintsDbHelper(context).getReadableDatabase();
     }
 
-    public Cursor getSaint(Context context, long id) {
+    public Saint getSaint(Context context, long id) {
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        queryBuilder.setTables(SaintsContract.SaintEntry.TABLE_NAME + " AS s " +
+            " INNER JOIN " + PaintingsContract.PaintingsEntry.TABLE_NAME + " AS p " +
+                " ON s." + SaintsContract.SaintEntry._ID + "=p." + PaintingsContract.PaintingsEntry.SAINT_ID +
+            " INNER JOIN " + context.getString(SaintsContract.SaintTranslation.TABLE_NAME) + " AS tr " +
+                " ON s." + SaintsContract.SaintEntry._ID + "=tr." + SaintsContract.SaintTranslation.TRANSLATION_ID);
+
         final String[] projection = {
                 SaintsContract.SaintEntry._ID,
                 SaintsContract.SaintTranslation.NAME,
-                SaintsContract.SaintEntry.PAINTINGS,
+                PaintingsContract.PaintingsEntry.FILE_NAME,
                 SaintsContract.SaintTranslation.ATTRIBUTES,
                 SaintsContract.SaintEntry.ICON,
                 SaintsContract.SaintTranslation.DESCRIPTION,
@@ -128,13 +141,69 @@ public class SaintsDbQuery {
         final String selection = SaintsContract.SaintEntry._ID + " = ?";
         final String[] selectionArgs = { String.valueOf(id) };
         // TODO: do in another thread
-        return getDb(context).query(
-                saintsJoinedTranslationTable(context),
+        Cursor cursor = queryBuilder.query(
+                getDb(context),
                 projection,
-                JOIN_TRANSLATION_CONDITION + " AND " + selection,
+                selection,
                 selectionArgs,
                 null, null, null
         );
+        return convertSaintFromCursor(cursor, context);
     }
 
+    private static Saint convertSaintFromCursor(Cursor cursor, Context context) {
+        try {
+            if (cursor.moveToFirst()) {
+                return convertSaintFromCursorOnPosition(cursor, context);
+            } else {
+                return null;
+            }
+        } finally {
+            cursor.close();
+        }
+    }
+
+    public static Saint convertSaintFromCursorOnPosition(Cursor cursor, Context context) {
+
+        final int idColumnIndex = cursor.getColumnIndex(SaintsContract.SaintEntry._ID);
+        final int nameColumnIndex = cursor.getColumnIndex(SaintsContract.SaintTranslation.NAME);
+        final int paintingNameColumnIndex = cursor.getColumnIndex(PaintingsContract.PaintingsEntry.FILE_NAME);
+        final int attributesColumnIndex = cursor.getColumnIndex(SaintsContract.SaintTranslation.ATTRIBUTES);
+        final int iconColumnIndex = cursor.getColumnIndex(SaintsContract.SaintEntry.ICON);
+        final int descriptionColumnIndex = cursor.getColumnIndex(SaintsContract.SaintTranslation.DESCRIPTION);
+        final int wikiLinkColumnIndex = cursor.getColumnIndex(SaintsContract.SaintTranslation.WIKI_LINK);
+        final int genderColumnIndex = cursor.getColumnIndex(SaintsContract.SaintEntry.GENDER);
+        final int categoryColumnIndex = cursor.getColumnIndex(SaintsContract.SaintEntry.CATEGORY);
+
+        Saint saint = new Saint(
+                (idColumnIndex != -1) ? cursor.getLong(idColumnIndex) : -1,
+                (nameColumnIndex != -1) ? cursor.getString(nameColumnIndex) : null,
+                (paintingNameColumnIndex != -1) ? Collections.singletonList(getPainting(paintingNameColumnIndex, cursor, context)) : new ArrayList<Integer>(),
+                // TODO: stub, save attr in separate table
+                (attributesColumnIndex != -1) ?
+                        new ArrayList<>(Arrays.asList(TextUtils.split(cursor.getString(attributesColumnIndex), ","))) :
+                        null,
+                (iconColumnIndex != -1) ?
+                        context.getResources().getIdentifier(cursor.getString(iconColumnIndex), "drawable", context.getPackageName()) :
+                        -1,
+                (descriptionColumnIndex != -1) ? cursor.getString(descriptionColumnIndex) : null,
+                (wikiLinkColumnIndex != -1) ? cursor.getString(wikiLinkColumnIndex) : null,
+                (genderColumnIndex != -1) ? cursor.getInt(genderColumnIndex) : null,
+                (categoryColumnIndex != -1) ? cursor.getString(categoryColumnIndex) : null
+        );
+
+        while (cursor.moveToNext()) {
+            saint.getPaintings().add(getPainting(paintingNameColumnIndex, cursor, context));
+        }
+
+        return saint;
+    }
+
+    private static Integer getPainting(int paintingNameColumnIndex, Cursor cursor, Context context) {
+        if (paintingNameColumnIndex == -1) {
+            return null;
+        }
+        final String paintingName = cursor.getString(paintingNameColumnIndex);
+        return context.getResources().getIdentifier(paintingName , "drawable", context.getPackageName());
+    }
 }

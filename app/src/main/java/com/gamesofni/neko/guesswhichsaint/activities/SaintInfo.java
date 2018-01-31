@@ -44,7 +44,7 @@ public class SaintInfo extends AppCompatActivity {
         ImageView saint_icon = findViewById(R.id.info_saint_icon);
 
         SaintsDbQuery db = new SaintsDbQuery();
-        Saint saint = Saint.convertSaintFromCursor(db.getSaint(this, saintId), this);
+        Saint saint = db.getSaint(this, saintId);
 
         if (saint == null) {
             return;

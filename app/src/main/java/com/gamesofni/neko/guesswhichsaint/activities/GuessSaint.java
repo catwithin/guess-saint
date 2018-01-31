@@ -19,6 +19,7 @@ import com.gamesofni.neko.guesswhichsaint.db.SaintsContract;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -92,11 +93,11 @@ public class GuessSaint extends AppCompatActivity {
         autoNext = sharedPreferences.getBoolean("autoNext", false);
 
         SaintsDbQuery db = new SaintsDbQuery();
-        Map<String, Map <Long, String>> allSaintsIdToNames = db.getAllSaintsIdToNames(this);
+        Map<String, Map <Long, String>> allSaintsIdToNamesByCategory = db.getAllSaintsIdToNames(this);
 
-        saintIdsToNamesFemale = allSaintsIdToNames.get(FEMALE_KEY);
-        saintIdsToNamesMale = allSaintsIdToNames.get(MALE_KEY);
-        saintIdsToNamesMagi = allSaintsIdToNames.get(CATEGORY_MAGI_KEY);
+        saintIdsToNamesFemale = allSaintsIdToNamesByCategory.get(FEMALE_KEY);
+        saintIdsToNamesMale = allSaintsIdToNamesByCategory.get(MALE_KEY);
+        saintIdsToNamesMagi = allSaintsIdToNamesByCategory.get(CATEGORY_MAGI_KEY);
 
         saintIds = new HashSet<>();
 
@@ -225,10 +226,10 @@ public class GuessSaint extends AppCompatActivity {
         final long correctSaintId = saintsListIds.remove(ran.nextInt(saintsListIds.size()));
 
         SaintsDbQuery db = new SaintsDbQuery();
-        final Saint correctSaint = Saint.convertSaintFromCursor(db.getSaint(this, correctSaintId), this);
+        final Saint correctSaint = db.getSaint(this, correctSaintId);
         this.correctSaintName = correctSaint.getName();
 
-        ArrayList<Integer> pictureUrls = correctSaint.getPaintings();
+        List<Integer> pictureUrls = correctSaint.getPaintings();
         pictureResId = pictureUrls.get(ran.nextInt(pictureUrls.size()));
         pictureView.setImageResource(pictureResId);
 

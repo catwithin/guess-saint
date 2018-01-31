@@ -14,11 +14,9 @@ public final class SaintsContract {
 
 
     public static class SaintEntry implements BaseColumns {
-        public static final String TABLE_NAME = "saints";
+        static final String TABLE_NAME = "saints";
         public final static String _ID = BaseColumns._ID;
 
-        // stub - will use PaintingEntry and join later
-        public static final String PAINTINGS = "paintings";
         public static final String ICON = "icon"; // drawables file name
         public static final String GENDER = "gender";
         public static final String CATEGORY = "category";
@@ -32,14 +30,6 @@ public final class SaintsContract {
         public static final String DESCRIPTION = "description";
         public static final String ATTRIBUTES = "attributes";
         public static final String WIKI_LINK = "wikiLink";
-    }
-
-    public static class PaintingsEntry implements BaseColumns {
-        public static final String TABLE_NAME = "pictures";
-        public final static String _ID = BaseColumns._ID;
-        public static final String SAINT_ID = "saintId";
-        public static final String PAINTING = "quizPainting"; // drawables file name
-        public static final String PAINTING_DESCRIPTION = "paintingDescription"; // drawables file name
     }
 
     // gonna be hardcoded for now

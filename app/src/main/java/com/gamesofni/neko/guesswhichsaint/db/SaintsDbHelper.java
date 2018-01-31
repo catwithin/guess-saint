@@ -18,6 +18,8 @@ public class SaintsDbHelper extends SQLiteAssetHelper {
             "DROP TABLE IF EXISTS saints_default; ";
     private static final String SQL_DROP_SAINTS_RU =
             "DROP TABLE IF EXISTS saints_ru; ";
+    private static final String SQL_DROP_PAINTINGS =
+            "DROP TABLE IF EXISTS " + PaintingsContract.PaintingsEntry.TABLE_NAME + "; ";
 
     private static final String TAG = SaintsDbHelper.class.getSimpleName();
 
@@ -32,6 +34,7 @@ public class SaintsDbHelper extends SQLiteAssetHelper {
         db.execSQL(SQL_DROP_SAINTS);
         db.execSQL(SQL_DROP_SAINTS_DEFAULT);
         db.execSQL(SQL_DROP_SAINTS_RU);
+        db.execSQL(SQL_DROP_PAINTINGS);
     }
 
 }
