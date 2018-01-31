@@ -128,17 +128,17 @@ public class SaintsDbQuery {
                 " ON s." + SaintsContract.SaintEntry._ID + "=tr." + SaintsContract.SaintTranslation.TRANSLATION_ID);
 
         final String[] projection = {
-                SaintsContract.SaintEntry._ID,
-                SaintsContract.SaintTranslation.NAME,
+                "s." + SaintsContract.SaintEntry._ID,
+                "tr." + SaintsContract.SaintTranslation.NAME,
                 PaintingsContract.PaintingsEntry.FILE_NAME,
                 SaintsContract.SaintTranslation.ATTRIBUTES,
                 SaintsContract.SaintEntry.ICON,
                 SaintsContract.SaintTranslation.DESCRIPTION,
-                SaintsContract.SaintTranslation.WIKI_LINK,
+                "tr." + SaintsContract.SaintTranslation.WIKI_LINK,
                 SaintsContract.SaintEntry.GENDER,
                 SaintsContract.SaintEntry.CATEGORY
         };
-        final String selection = SaintsContract.SaintEntry._ID + " = ?";
+        final String selection = "s." + SaintsContract.SaintEntry._ID + " = ?";
         final String[] selectionArgs = { String.valueOf(id) };
         // TODO: do in another thread
         Cursor cursor = queryBuilder.query(
@@ -175,10 +175,14 @@ public class SaintsDbQuery {
         final int genderColumnIndex = cursor.getColumnIndex(SaintsContract.SaintEntry.GENDER);
         final int categoryColumnIndex = cursor.getColumnIndex(SaintsContract.SaintEntry.CATEGORY);
 
+        ArrayList<Integer> paintings = new ArrayList<>();
+        if (paintingNameColumnIndex != -1) {
+          paintings.add(getPainting(paintingNameColumnIndex, cursor, context));
+        }
         Saint saint = new Saint(
                 (idColumnIndex != -1) ? cursor.getLong(idColumnIndex) : -1,
                 (nameColumnIndex != -1) ? cursor.getString(nameColumnIndex) : null,
-                (paintingNameColumnIndex != -1) ? Collections.singletonList(getPainting(paintingNameColumnIndex, cursor, context)) : new ArrayList<Integer>(),
+                paintings,
                 // TODO: stub, save attr in separate table
                 (attributesColumnIndex != -1) ?
                         new ArrayList<>(Arrays.asList(TextUtils.split(cursor.getString(attributesColumnIndex), ","))) :

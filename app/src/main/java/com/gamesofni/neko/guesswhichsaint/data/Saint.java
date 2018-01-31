@@ -1,13 +1,12 @@
 package com.gamesofni.neko.guesswhichsaint.data;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Saint {
     private long id;
     private String name;
-    private List<Integer> paintings;
+    private ArrayList<Integer> paintings;
     private ArrayList<String> attributes;
     private int icon;
     private String info;
@@ -16,7 +15,7 @@ public class Saint {
     private String category;
 
 
-    public Saint(long id, String name, List<Integer> paintings, ArrayList<String> attributes, int icon, String info, String wikiUrl, Integer gender, String category) {
+    public Saint(long id, String name, ArrayList<Integer> paintings, ArrayList<String> attributes, int icon, String info, String wikiUrl, Integer gender, String category) {
         this.id = id;
         this.name = name;
         this.paintings = paintings;
@@ -36,7 +35,7 @@ public class Saint {
         return name;
     }
 
-    public List<Integer> getPaintings() {
+    public ArrayList<Integer> getPaintings() {
         return paintings;
     }
 

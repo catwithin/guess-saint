@@ -10,7 +10,7 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 public class SaintsDbHelper extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "saints.db";
-    private static final int DATABASE_VERSION = 21;
+    private static final int DATABASE_VERSION = 23;
 
     private static final String SQL_DROP_SAINTS =
             "DROP TABLE IF EXISTS saints; ";
