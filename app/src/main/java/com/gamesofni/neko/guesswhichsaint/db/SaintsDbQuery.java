@@ -6,10 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.text.TextUtils;
+
+import com.gamesofni.neko.guesswhichsaint.data.Painting;
 import com.gamesofni.neko.guesswhichsaint.data.Saint;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import static com.gamesofni.neko.guesswhichsaint.db.SaintsContract.CATEGORY_MAGI;
@@ -131,6 +132,7 @@ public class SaintsDbQuery {
                 "s." + SaintsContract.SaintEntry._ID,
                 "tr." + SaintsContract.SaintTranslation.NAME,
                 PaintingsContract.PaintingsEntry.FILE_NAME,
+                "p." + PaintingsContract.PaintingsEntry.COUNT,
                 SaintsContract.SaintTranslation.ATTRIBUTES,
                 SaintsContract.SaintEntry.ICON,
                 SaintsContract.SaintTranslation.DESCRIPTION,
@@ -167,7 +169,6 @@ public class SaintsDbQuery {
 
         final int idColumnIndex = cursor.getColumnIndex(SaintsContract.SaintEntry._ID);
         final int nameColumnIndex = cursor.getColumnIndex(SaintsContract.SaintTranslation.NAME);
-        final int paintingNameColumnIndex = cursor.getColumnIndex(PaintingsContract.PaintingsEntry.FILE_NAME);
         final int attributesColumnIndex = cursor.getColumnIndex(SaintsContract.SaintTranslation.ATTRIBUTES);
         final int iconColumnIndex = cursor.getColumnIndex(SaintsContract.SaintEntry.ICON);
         final int descriptionColumnIndex = cursor.getColumnIndex(SaintsContract.SaintTranslation.DESCRIPTION);
@@ -175,10 +176,9 @@ public class SaintsDbQuery {
         final int genderColumnIndex = cursor.getColumnIndex(SaintsContract.SaintEntry.GENDER);
         final int categoryColumnIndex = cursor.getColumnIndex(SaintsContract.SaintEntry.CATEGORY);
 
-        ArrayList<Integer> paintings = new ArrayList<>();
-        if (paintingNameColumnIndex != -1) {
-          paintings.add(getPainting(paintingNameColumnIndex, cursor, context));
-        }
+        ArrayList<Painting> paintings = new ArrayList<>();
+        paintings.add(getPainting(cursor, context));
+
         Saint saint = new Saint(
                 (idColumnIndex != -1) ? cursor.getLong(idColumnIndex) : -1,
                 (nameColumnIndex != -1) ? cursor.getString(nameColumnIndex) : null,
@@ -197,17 +197,21 @@ public class SaintsDbQuery {
         );
 
         while (cursor.moveToNext()) {
-            saint.getPaintings().add(getPainting(paintingNameColumnIndex, cursor, context));
+            saint.getPaintings().add(getPainting(cursor, context));
         }
 
         return saint;
     }
 
-    private static Integer getPainting(int paintingNameColumnIndex, Cursor cursor, Context context) {
-        if (paintingNameColumnIndex == -1) {
+    private static Painting getPainting(Cursor cursor, Context context) {
+        final int paintingNameColumnIndex = cursor.getColumnIndex(PaintingsContract.PaintingsEntry.FILE_NAME);
+        final int paintingCountColumnIndex = cursor.getColumnIndex(PaintingsContract.PaintingsEntry.COUNT);
+        if (paintingNameColumnIndex == -1 || paintingCountColumnIndex == -1) {
             return null;
         }
         final String paintingName = cursor.getString(paintingNameColumnIndex);
-        return context.getResources().getIdentifier(paintingName , "drawable", context.getPackageName());
+        final Integer fileIdentifier = context.getResources().getIdentifier(paintingName , "drawable", context.getPackageName());
+        final Integer correctCount = cursor.getInt(paintingCountColumnIndex);
+        return new Painting(fileIdentifier, correctCount);
     }
 }

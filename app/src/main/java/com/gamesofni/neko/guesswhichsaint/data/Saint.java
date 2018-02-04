@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Saint {
     private long id;
     private String name;
-    private ArrayList<Integer> paintings;
+    private ArrayList<Painting> paintings;
     private ArrayList<String> attributes;
     private int icon;
     private String info;
@@ -15,7 +15,7 @@ public class Saint {
     private String category;
 
 
-    public Saint(long id, String name, ArrayList<Integer> paintings, ArrayList<String> attributes, int icon, String info, String wikiUrl, Integer gender, String category) {
+    public Saint(long id, String name, ArrayList<Painting> paintings, ArrayList<String> attributes, int icon, String info, String wikiUrl, Integer gender, String category) {
         this.id = id;
         this.name = name;
         this.paintings = paintings;
@@ -27,6 +27,15 @@ public class Saint {
         this.category = category;
     }
 
+    public ArrayList<Integer> getPaintingsResources() {
+        ArrayList<Integer> resourceIdentifiers = new ArrayList<>();
+        for (Painting p : paintings) {
+            resourceIdentifiers.add(p.getResourceName());
+        }
+        return resourceIdentifiers;
+    }
+
+
     public long getId() {
         return id;
     }
@@ -35,7 +44,7 @@ public class Saint {
         return name;
     }
 
-    public ArrayList<Integer> getPaintings() {
+    public ArrayList<Painting> getPaintings() {
         return paintings;
     }
 

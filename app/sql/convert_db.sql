@@ -57,6 +57,7 @@ CREATE TABLE paintings (
   saintId INTEGER,
   fileName TEXT NOT NULL,
   name TEXT NOT NULL,
+  correctCount INTEGER,
   wikiLink TEXT
 );
 
@@ -82,8 +83,8 @@ saints_full
 ;
 
 /* insert info about paintings */
-INSERT INTO paintings (saintId, fileName, name, Wikilink)
-SELECT SaintId, Pic, Name_of_pic, Wikilink_to_aboutpainting
+INSERT INTO paintings (saintId, fileName, name, Wikilink, correctCount)
+SELECT SaintId, Pic, Name_of_pic, Wikilink_to_aboutpainting, 0
 FROM
 imgs
 ;

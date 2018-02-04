@@ -229,7 +229,7 @@ public class GuessSaint extends AppCompatActivity {
         final Saint correctSaint = db.getSaint(this, correctSaintId);
         this.correctSaintName = correctSaint.getName();
 
-        List<Integer> pictureUrls = correctSaint.getPaintings();
+        List<Integer> pictureUrls = correctSaint.getPaintingsResources();
         pictureResId = pictureUrls.get(ran.nextInt(pictureUrls.size()));
         pictureView.setImageResource(pictureResId);
 
