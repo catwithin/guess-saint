@@ -13,7 +13,7 @@ public final class SaintsContract {
     public static final String CATEGORY_MAGI = "magi";
 
 
-    public static class SaintEntry implements BaseColumns {
+    static class SaintEntry implements BaseColumns {
         static final String TABLE_NAME = "saints";
         public final static String _ID = BaseColumns._ID;
 
@@ -22,7 +22,7 @@ public final class SaintsContract {
         public static final String CATEGORY = "category";
     }
 
-    public static class SaintTranslation implements BaseColumns {
+    static class SaintTranslation implements BaseColumns {
         public static final int TABLE_NAME = R.string.saints_translation_table_name;
 
         public final static String TRANSLATION_ID = "translation_id";

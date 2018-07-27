@@ -49,7 +49,6 @@ public class SaintsQuery {
             null, null, null,
             sortOrder
         );
-//        DbAccess.getDbAccess(context).closeDatabase();
         return result;
     }
 
@@ -172,7 +171,7 @@ public class SaintsQuery {
         final int categoryColumnIndex = cursor.getColumnIndex(SaintsContract.SaintEntry.CATEGORY);
 
         ArrayList<Painting> paintings = new ArrayList<>();
-        paintings.add(getPainting(cursor, context));
+        paintings.add(PaintingsContract.convertPaintingFromSaintJoinedCursor(cursor, context));
 
         Saint saint = new Saint(
                 (idColumnIndex != -1) ? cursor.getLong(idColumnIndex) : -1,
@@ -192,23 +191,10 @@ public class SaintsQuery {
         );
 
         while (cursor.moveToNext()) {
-            saint.getPaintings().add(getPainting(cursor, context));
+            saint.getPaintings().add(PaintingsContract.convertPaintingFromSaintJoinedCursor(cursor, context));
         }
 
         return saint;
     }
 
-    private static Painting getPainting(Cursor cursor, Context context) {
-        final int paintingFileNameColumnIndex = cursor.getColumnIndex(PaintingsContract.PaintingsEntry.FILE_NAME);
-        final int paintingCountColumnIndex = cursor.getColumnIndex(PaintingsContract.PaintingsEntry.COUNT);
-        final int paintingIdColumnIndex = cursor.getColumnIndex("p" + PaintingsContract.PaintingsEntry._ID);
-        if (paintingFileNameColumnIndex == -1 || paintingCountColumnIndex == -1) {
-            return null;
-        }
-        final String paintingFileName = cursor.getString(paintingFileNameColumnIndex);
-        final Integer fileIdentifier = context.getResources().getIdentifier(paintingFileName , "drawable", context.getPackageName());
-        final Integer correctCount = cursor.getInt(paintingCountColumnIndex);
-        final Long id = cursor.getLong(paintingIdColumnIndex);
-        return new Painting(id, fileIdentifier, correctCount);
-    }
 }

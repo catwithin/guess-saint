@@ -46,6 +46,8 @@ public class GuessSaint extends AppCompatActivity {
     private Map<Long, String> saintIdsToNamesMale;
     private Map<Long, String> saintIdsToNamesMagi;
 
+    private ArrayList<Painting> unguessedPaintings;
+
     private ArrayList<ToggleButton> buttons;
     private String correctSaintName;
 
@@ -101,7 +103,7 @@ public class GuessSaint extends AppCompatActivity {
         this.saintsQuery = new SaintsQuery();
         this.paintingsQuery = new PaintingsQuery();
 
-        Map<String, Map <Long, String>> allSaintsIdToNamesByCategory = saintsQuery.getAllSaintsIdToNames(this);
+        Map<String, Map <Long, String>> allSaintsIdToNamesByCategory = saintsQuery.getAllSaintsIdToNames(this.getApplicationContext());
 
         saintIdsToNamesFemale = allSaintsIdToNamesByCategory.get(FEMALE_KEY);
         saintIdsToNamesMale = allSaintsIdToNamesByCategory.get(MALE_KEY);
@@ -112,10 +114,13 @@ public class GuessSaint extends AppCompatActivity {
         saintIds.addAll(saintIdsToNamesFemale.keySet());
         saintIds.addAll(saintIdsToNamesMale.keySet());
         saintIds.addAll(saintIdsToNamesMagi.keySet());
+
         if (saintIds.size() < 4) {
             setContentView(R.layout.empty_db);
             return;
         }
+
+        unguessedPaintings = paintingsQuery.getAllUnguessedPaintings(this.getApplicationContext());
 
         setContentView(R.layout.activity_guess);
 
@@ -231,23 +236,19 @@ public class GuessSaint extends AppCompatActivity {
     }
 
     private void setQuestion() {
-        // TODO: optimize maps lists ops
-        ArrayList<Long> saintsListIds = new ArrayList<>(saintIds);
+        Painting paintingToGuess = unguessedPaintings.get(ran.nextInt(unguessedPaintings.size()));
 
-        final long correctSaintId = saintsListIds.remove(ran.nextInt(saintsListIds.size()));
-
-        final Saint correctSaint = saintsQuery.getSaint(this, correctSaintId);
+        final Saint correctSaint = saintsQuery.getSaint(this, paintingToGuess.getSaintId());
         this.correctSaintName = correctSaint.getName();
 
-        Painting randomPainting = correctSaint.getPaintings()
-                .get(ran.nextInt(correctSaint.getPaintings().size()));
-
-        pictureResId = randomPainting.getResourceName();
+        pictureResId = paintingToGuess.getResourceName();
         pictureView.setImageResource(pictureResId);
 
-        questionPictureId = randomPainting.getId();
+        questionPictureId = paintingToGuess.getId();
 
         correctChoice = ran.nextInt(buttons.size());
+
+        ArrayList<Long> saintsListIds;
 
         if (correctSaint.getGender().equals(SaintsContract.GENDER_FEMALE)) {
             saintsListIds = new ArrayList<>(saintIdsToNamesFemale.keySet());
@@ -256,7 +257,7 @@ public class GuessSaint extends AppCompatActivity {
         } else {
             saintsListIds = new ArrayList<>(saintIdsToNamesMale.keySet());
         }
-        saintsListIds.remove(correctSaintId);
+        saintsListIds.remove(correctSaint.getId());
 
         for (int i = 0; i < buttons.size(); i++) {
             ToggleButton button = buttons.get(i);
@@ -301,14 +302,19 @@ public class GuessSaint extends AppCompatActivity {
             return;
         }
         final boolean isCorrectAnswer = userChoiceId == correctChoice;
+
+        paintingsQuery.updateCorrectAnswersCount(this, questionPictureId, isCorrectAnswer);
+
         if (isCorrectAnswer) {
             correctAnswers++;
+            if (paintingsQuery.isCountOverTreshold(this.getApplicationContext(), questionPictureId)) {
+                unguessedPaintings.remove(new Painting (questionPictureId));
+            }
         } else {
             buttons.get(userChoiceId).setBackgroundColor(wrongChoiceColor);
             wrongAnswers++;
         }
 
-        paintingsQuery.updateCorrectAnswersCount(this, questionPictureId, isCorrectAnswer);
         buttons.get(correctChoice).setBackgroundColor(correctChoiceColor);
 
         setScore();

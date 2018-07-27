@@ -1,7 +1,9 @@
 package com.gamesofni.neko.guesswhichsaint.data;
 
 
-public class Painting {
+import java.io.Serializable;
+
+public class Painting implements Serializable {
     private long id;
     private long saintId;
     private String fileName;
@@ -12,10 +14,45 @@ public class Painting {
     private String explanation;
     private Integer correctCount;
 
-    public Painting(Long id, Integer resourceName, Integer correctCount) {
+    public Painting(long id, Integer resourceName, Integer correctCount) {
         this.id = id;
         this.resourceName = resourceName;
         this.correctCount = correctCount;
+    }
+
+    public Painting(Long id, Integer resourceName, Integer correctCount, long saintId) {
+        this.id = id;
+        this.resourceName = resourceName;
+        this.correctCount = correctCount;
+        this.saintId = saintId;
+    }
+
+    public Painting(long id) {
+        this.id = id;
+    }
+
+    // only used to remove painting from unguessed list based on id
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (obj == this) return true;
+        if (!(obj instanceof Painting)) return false;
+        Painting p = (Painting) obj;
+        return p.id == this.id;
+    }
+
+    @Override
+    public String toString() {
+        return "Painting{" +
+                "id=" + id +
+                ", saintId=" + saintId +
+                ", fileName='" + fileName + '\'' +
+                ", resourceName=" + resourceName +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", wikiLink='" + wikiLink + '\'' +
+                ", explanation='" + explanation + '\'' +
+                ", correctCount=" + correctCount +
+                '}';
     }
 
     public Integer getCorrectCount() {
