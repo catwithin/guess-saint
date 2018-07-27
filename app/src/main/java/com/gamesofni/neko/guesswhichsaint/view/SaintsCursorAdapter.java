@@ -15,7 +15,7 @@ import com.gamesofni.neko.guesswhichsaint.R.layout;
 import com.gamesofni.neko.guesswhichsaint.R.id;
 import com.gamesofni.neko.guesswhichsaint.data.Saint;
 
-import static com.gamesofni.neko.guesswhichsaint.db.SaintsDbQuery.convertSaintFromCursorOnPosition;
+import static com.gamesofni.neko.guesswhichsaint.db.SaintsQuery.convertSaintFromCursorOnPosition;
 
 public class SaintsCursorAdapter extends CursorAdapter{
 // TODO: when coming bk from list item info view the list is on top, better would be on same position - only for our button, hardware back works great

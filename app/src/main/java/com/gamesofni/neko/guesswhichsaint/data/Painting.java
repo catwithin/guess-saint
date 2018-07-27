@@ -12,7 +12,8 @@ public class Painting {
     private String explanation;
     private Integer correctCount;
 
-    public Painting(Integer resourceName, Integer correctCount) {
+    public Painting(Long id, Integer resourceName, Integer correctCount) {
+        this.id = id;
         this.resourceName = resourceName;
         this.correctCount = correctCount;
     }

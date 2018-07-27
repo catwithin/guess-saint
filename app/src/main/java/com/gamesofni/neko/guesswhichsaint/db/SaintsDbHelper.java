@@ -10,7 +10,7 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 public class SaintsDbHelper extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "saints.db";
-    private static final int DATABASE_VERSION = 25;
+    private static final int DATABASE_VERSION = 28;
 
     private static final String SQL_DROP_SAINTS =
             "DROP TABLE IF EXISTS saints; ";
@@ -18,23 +18,19 @@ public class SaintsDbHelper extends SQLiteAssetHelper {
             "DROP TABLE IF EXISTS saints_default; ";
     private static final String SQL_DROP_SAINTS_RU =
             "DROP TABLE IF EXISTS saints_ru; ";
-    private static final String SQL_DROP_PAINTINGS =
-            "DROP TABLE IF EXISTS " + PaintingsContract.PaintingsEntry.TABLE_NAME + "; ";
 
     private static final String TAG = SaintsDbHelper.class.getSimpleName();
 
     SaintsDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        setForcedUpgrade();
     }
 
     // db uploads from assets in createOrOpenDatabase()
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.v(TAG, "Dropping all tables for update");
+        Log.v(TAG, "Dropping all tables except paintings for update");
         db.execSQL(SQL_DROP_SAINTS);
         db.execSQL(SQL_DROP_SAINTS_DEFAULT);
         db.execSQL(SQL_DROP_SAINTS_RU);
-        db.execSQL(SQL_DROP_PAINTINGS);
     }
 
 }

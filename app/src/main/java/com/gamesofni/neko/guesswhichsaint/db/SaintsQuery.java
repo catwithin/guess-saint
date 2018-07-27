@@ -3,7 +3,6 @@ package com.gamesofni.neko.guesswhichsaint.db;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.text.TextUtils;
 
@@ -17,22 +16,12 @@ import static com.gamesofni.neko.guesswhichsaint.db.SaintsContract.CATEGORY_MAGI
 import static com.gamesofni.neko.guesswhichsaint.db.SaintsContract.GENDER_MALE;
 
 
-public class SaintsDbQuery {
+public class SaintsQuery {
 
     public static final String CATEGORY_MAGI_KEY = "magi";
     public static final String MALE_KEY = "male";
     public static final String FEMALE_KEY = "female";
 
-    public SaintsDbQuery() {}
-
-    private SaintsDbHelper saintsDbHelper;
-
-    private synchronized SaintsDbHelper getSaintsDbHelper(Context context)
-    {
-        if (saintsDbHelper == null)
-            saintsDbHelper = new SaintsDbHelper(context);
-        return saintsDbHelper;
-    }
 
     private static final String JOIN_TRANSLATION_CONDITION = SaintsContract.SaintEntry._ID + " = " + SaintsContract.SaintTranslation.TRANSLATION_ID;
 
@@ -40,6 +29,8 @@ public class SaintsDbQuery {
         return SaintsContract.SaintEntry.TABLE_NAME + " , " + context.getString(SaintsContract.SaintTranslation.TABLE_NAME);
     }
 
+    // move to List SaintsList - manage db connection there
+    // https://stackoverflow.com/questions/5225374/android-sqlite-leak-problem-with-cursoradapter
     public Cursor getAllSaintsWithIcons(Context context) {
         String[] projection = {
             SaintsContract.SaintEntry._ID,
@@ -50,15 +41,16 @@ public class SaintsDbQuery {
         String sortOrder = SaintsContract.SaintTranslation.NAME + " ASC";
 
         final String filterNoneOfTheAbove = " NOT " + SaintsContract.SaintEntry._ID + "=" + String.valueOf(0);
-
         // TODO: do in another thread
-        return getDb(context).query(
+        Cursor result = DbAccess.getDbAccess(context).getDatabase().query(
             saintsJoinedTranslationTable(context),
             projection,
             JOIN_TRANSLATION_CONDITION + " AND " + filterNoneOfTheAbove,
             null, null, null,
             sortOrder
         );
+//        DbAccess.getDbAccess(context).closeDatabase();
+        return result;
     }
 
     private Cursor queryAllSaintsWithCategories(Context context) {
@@ -70,7 +62,7 @@ public class SaintsDbQuery {
         };
 
         // TODO: do in another thread
-        return getDb(context).query(
+        return DbAccess.getDbAccess(context).getDatabase().query(
             saintsJoinedTranslationTable(context),
             projection,
             JOIN_TRANSLATION_CONDITION,
@@ -109,15 +101,13 @@ public class SaintsDbQuery {
             cursor.close();
         }
 
+        DbAccess.getDbAccess(context).closeDatabase();
+
         allSaintsGrouped.put(FEMALE_KEY, saintIdsToNamesFemale);
         allSaintsGrouped.put(MALE_KEY, saintIdsToNamesMale);
         allSaintsGrouped.put(CATEGORY_MAGI_KEY, saintIdsToNamesMagi);
 
         return allSaintsGrouped;
-    }
-
-    private SQLiteDatabase getDb(Context context) {
-        return getSaintsDbHelper(context).getReadableDatabase();
     }
 
     public Saint getSaint(Context context, long id) {
@@ -129,10 +119,11 @@ public class SaintsDbQuery {
                 " ON s." + SaintsContract.SaintEntry._ID + "=tr." + SaintsContract.SaintTranslation.TRANSLATION_ID);
 
         final String[] projection = {
-                "s." + SaintsContract.SaintEntry._ID,
+                "s." + SaintsContract.SaintEntry._ID + " AS s_id ",
                 "tr." + SaintsContract.SaintTranslation.NAME,
                 PaintingsContract.PaintingsEntry.FILE_NAME,
                 "p." + PaintingsContract.PaintingsEntry.COUNT,
+                "p." + PaintingsContract.PaintingsEntry._ID + " AS p_id ",
                 SaintsContract.SaintTranslation.ATTRIBUTES,
                 SaintsContract.SaintEntry.ICON,
                 SaintsContract.SaintTranslation.DESCRIPTION,
@@ -144,7 +135,7 @@ public class SaintsDbQuery {
         final String[] selectionArgs = { String.valueOf(id) };
         // TODO: do in another thread
         Cursor cursor = queryBuilder.query(
-                getDb(context),
+                DbAccess.getDbAccess(context).getDatabase(),
                 projection,
                 selection,
                 selectionArgs,
@@ -162,12 +153,16 @@ public class SaintsDbQuery {
             }
         } finally {
             cursor.close();
+            DbAccess.getDbAccess(context).closeDatabase();
         }
     }
 
+    // this cursor is join of tables saints w paintings, for one saint
+    // from the first row, we exctract info about first painting, then extract info about Saint
+    // then iterate through rows to exctract info about all the rest of paintings and add em to Saint object
     public static Saint convertSaintFromCursorOnPosition(Cursor cursor, Context context) {
 
-        final int idColumnIndex = cursor.getColumnIndex(SaintsContract.SaintEntry._ID);
+        final int idColumnIndex = cursor.getColumnIndex("s" + SaintsContract.SaintEntry._ID);
         final int nameColumnIndex = cursor.getColumnIndex(SaintsContract.SaintTranslation.NAME);
         final int attributesColumnIndex = cursor.getColumnIndex(SaintsContract.SaintTranslation.ATTRIBUTES);
         final int iconColumnIndex = cursor.getColumnIndex(SaintsContract.SaintEntry.ICON);
@@ -204,14 +199,16 @@ public class SaintsDbQuery {
     }
 
     private static Painting getPainting(Cursor cursor, Context context) {
-        final int paintingNameColumnIndex = cursor.getColumnIndex(PaintingsContract.PaintingsEntry.FILE_NAME);
+        final int paintingFileNameColumnIndex = cursor.getColumnIndex(PaintingsContract.PaintingsEntry.FILE_NAME);
         final int paintingCountColumnIndex = cursor.getColumnIndex(PaintingsContract.PaintingsEntry.COUNT);
-        if (paintingNameColumnIndex == -1 || paintingCountColumnIndex == -1) {
+        final int paintingIdColumnIndex = cursor.getColumnIndex("p" + PaintingsContract.PaintingsEntry._ID);
+        if (paintingFileNameColumnIndex == -1 || paintingCountColumnIndex == -1) {
             return null;
         }
-        final String paintingName = cursor.getString(paintingNameColumnIndex);
-        final Integer fileIdentifier = context.getResources().getIdentifier(paintingName , "drawable", context.getPackageName());
+        final String paintingFileName = cursor.getString(paintingFileNameColumnIndex);
+        final Integer fileIdentifier = context.getResources().getIdentifier(paintingFileName , "drawable", context.getPackageName());
         final Integer correctCount = cursor.getInt(paintingCountColumnIndex);
-        return new Painting(fileIdentifier, correctCount);
+        final Long id = cursor.getLong(paintingIdColumnIndex);
+        return new Painting(id, fileIdentifier, correctCount);
     }
 }

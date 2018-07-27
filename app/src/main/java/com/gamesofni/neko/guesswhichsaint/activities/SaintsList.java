@@ -9,7 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.gamesofni.neko.guesswhichsaint.R;
-import com.gamesofni.neko.guesswhichsaint.db.SaintsDbQuery;
+import com.gamesofni.neko.guesswhichsaint.db.SaintsQuery;
 import com.gamesofni.neko.guesswhichsaint.view.SaintsCursorAdapter;
 
 
@@ -19,7 +19,7 @@ public class SaintsList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SaintsDbQuery db = new SaintsDbQuery();
+        SaintsQuery db = new SaintsQuery();
         Cursor cursor = db.getAllSaintsWithIcons(this);
 
         if (cursor.getCount() < 1) {

@@ -13,29 +13,33 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.gamesofni.neko.guesswhichsaint.R;
+import com.gamesofni.neko.guesswhichsaint.data.Painting;
 import com.gamesofni.neko.guesswhichsaint.data.Saint;
+import com.gamesofni.neko.guesswhichsaint.db.PaintingsQuery;
 import com.gamesofni.neko.guesswhichsaint.db.SaintsContract;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.gamesofni.neko.guesswhichsaint.db.SaintsDbQuery;
+import com.gamesofni.neko.guesswhichsaint.db.SaintsQuery;
 import com.github.chrisbanes.photoview.PhotoView;
 
 import static com.gamesofni.neko.guesswhichsaint.db.SaintsContract.CATEGORY_MAGI;
-import static com.gamesofni.neko.guesswhichsaint.db.SaintsDbQuery.CATEGORY_MAGI_KEY;
-import static com.gamesofni.neko.guesswhichsaint.db.SaintsDbQuery.FEMALE_KEY;
-import static com.gamesofni.neko.guesswhichsaint.db.SaintsDbQuery.MALE_KEY;
+import static com.gamesofni.neko.guesswhichsaint.db.SaintsQuery.CATEGORY_MAGI_KEY;
+import static com.gamesofni.neko.guesswhichsaint.db.SaintsQuery.FEMALE_KEY;
+import static com.gamesofni.neko.guesswhichsaint.db.SaintsQuery.MALE_KEY;
 
 
 public class GuessSaint extends AppCompatActivity {
 
     private static final String USER_CHOICE = "userChoice";
     public static final String CORRECT_SAINT_NAME = "correctSaintName";
+
+    private SaintsQuery saintsQuery;
+    private PaintingsQuery paintingsQuery;
 
     private HashSet<Long> saintIds;
     private Map<Long, String> saintIdsToNamesFemale;
@@ -53,6 +57,7 @@ public class GuessSaint extends AppCompatActivity {
     private TextView scoreView;
     PhotoView pictureView;
     Integer pictureResId;
+    private long questionPictureId;
     private SharedPreferences sharedPreferences;
 
     private boolean autoNext;
@@ -69,6 +74,7 @@ public class GuessSaint extends AppCompatActivity {
     public static final String HAS_CHECKED_KEY = "guessed";
     public static final String BUTTON_NAMES = "buttonNames";
     private static final String PICTURE_RES_ID = "pictureResId";
+    private static final String PICTURE_ID = "pictureId";
     private static final String CORRECT_CHOICE = "correctChoice";
 
     public static final int SCORE_MIN_GUESSES = 5;
@@ -92,8 +98,10 @@ public class GuessSaint extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         autoNext = sharedPreferences.getBoolean("autoNext", false);
 
-        SaintsDbQuery db = new SaintsDbQuery();
-        Map<String, Map <Long, String>> allSaintsIdToNamesByCategory = db.getAllSaintsIdToNames(this);
+        this.saintsQuery = new SaintsQuery();
+        this.paintingsQuery = new PaintingsQuery();
+
+        Map<String, Map <Long, String>> allSaintsIdToNamesByCategory = saintsQuery.getAllSaintsIdToNames(this);
 
         saintIdsToNamesFemale = allSaintsIdToNamesByCategory.get(FEMALE_KEY);
         saintIdsToNamesMale = allSaintsIdToNamesByCategory.get(MALE_KEY);
@@ -154,6 +162,8 @@ public class GuessSaint extends AppCompatActivity {
         pictureResId = state.getInt(PICTURE_RES_ID);
         pictureView.setImageResource(pictureResId);
 
+        questionPictureId = state.getLong(PICTURE_ID);
+
         hasChecked = state.getBoolean(HAS_CHECKED_KEY, false);
 
         HashMap<Integer, String> buttonNames = (HashMap<Integer, String>) state.getSerializable(BUTTON_NAMES);
@@ -184,6 +194,7 @@ public class GuessSaint extends AppCompatActivity {
         outState.putInt(CORRECT_ANSWERS_KEY, correctAnswers);
         outState.putBoolean(HAS_CHECKED_KEY, hasChecked);
         outState.putInt(PICTURE_RES_ID, pictureResId);
+        outState.putLong(PICTURE_ID, questionPictureId);
         outState.putInt(CORRECT_CHOICE, correctChoice);
         outState.putString(CORRECT_SAINT_NAME, correctSaintName);
         outState.putInt(USER_CHOICE, getCheckedButtonId());
@@ -225,13 +236,16 @@ public class GuessSaint extends AppCompatActivity {
 
         final long correctSaintId = saintsListIds.remove(ran.nextInt(saintsListIds.size()));
 
-        SaintsDbQuery db = new SaintsDbQuery();
-        final Saint correctSaint = db.getSaint(this, correctSaintId);
+        final Saint correctSaint = saintsQuery.getSaint(this, correctSaintId);
         this.correctSaintName = correctSaint.getName();
 
-        List<Integer> pictureUrls = correctSaint.getPaintingsResources();
-        pictureResId = pictureUrls.get(ran.nextInt(pictureUrls.size()));
+        Painting randomPainting = correctSaint.getPaintings()
+                .get(ran.nextInt(correctSaint.getPaintings().size()));
+
+        pictureResId = randomPainting.getResourceName();
         pictureView.setImageResource(pictureResId);
+
+        questionPictureId = randomPainting.getId();
 
         correctChoice = ran.nextInt(buttons.size());
 
@@ -286,14 +300,15 @@ public class GuessSaint extends AppCompatActivity {
 
             return;
         }
-        final boolean correctAnswer = userChoiceId == correctChoice;
-        if (correctAnswer) {
+        final boolean isCorrectAnswer = userChoiceId == correctChoice;
+        if (isCorrectAnswer) {
             correctAnswers++;
-
         } else {
             buttons.get(userChoiceId).setBackgroundColor(wrongChoiceColor);
             wrongAnswers++;
         }
+
+        paintingsQuery.updateCorrectAnswersCount(this, questionPictureId, isCorrectAnswer);
         buttons.get(correctChoice).setBackgroundColor(correctChoiceColor);
 
         setScore();
@@ -302,7 +317,7 @@ public class GuessSaint extends AppCompatActivity {
             if (correctAnswerToast != null) {
                 correctAnswerToast.cancel();
             }
-            final String message = correctAnswer ?
+            final String message = isCorrectAnswer ?
                     getString(R.string.answer_correct) :
                     getString(R.string.answer_wrong) + correctSaintName;
             correctAnswerToast = Toast.makeText(this, message, Toast.LENGTH_SHORT);

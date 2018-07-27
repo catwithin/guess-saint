@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.gamesofni.neko.guesswhichsaint.R;
 import com.gamesofni.neko.guesswhichsaint.data.Saint;
-import com.gamesofni.neko.guesswhichsaint.db.SaintsDbQuery;
+import com.gamesofni.neko.guesswhichsaint.db.SaintsQuery;
 
 import static com.gamesofni.neko.guesswhichsaint.utils.Utils.checkSupportedAction;
 import static com.gamesofni.neko.guesswhichsaint.utils.Utils.showClientsMsg;
@@ -43,7 +43,7 @@ public class SaintInfo extends AppCompatActivity {
         TextView saint_attributes = findViewById(R.id.saint_attributes);
         ImageView saint_icon = findViewById(R.id.info_saint_icon);
 
-        SaintsDbQuery db = new SaintsDbQuery();
+        SaintsQuery db = new SaintsQuery();
         Saint saint = db.getSaint(this, saintId);
 
         if (saint == null) {
