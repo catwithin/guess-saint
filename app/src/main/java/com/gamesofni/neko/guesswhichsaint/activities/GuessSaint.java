@@ -60,8 +60,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
 
     private TextView scoreView;
     PhotoView pictureView;
-    Integer pictureResId;
-    private long questionPictureId;
+    private Painting questionPainting;
     private SharedPreferences sharedPreferences;
 
     private boolean autoNext;
@@ -77,8 +76,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
     private static final String WRONG_ANSWERS_KEY = "wrong";
     public static final String HAS_CHECKED_KEY = "guessed";
     public static final String BUTTON_NAMES = "buttonNames";
-    private static final String PICTURE_RES_ID = "pictureResId";
-    private static final String PICTURE_ID = "pictureId";
+    private static final String PAINTING = "painting";
     private static final String CORRECT_CHOICE = "correctChoice";
 
     public static final int MIN_GUESSES_FOR_SCORE_UPDATE = 5;
@@ -181,10 +179,8 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
         wrongAnswers = state.getInt(WRONG_ANSWERS_KEY, 0);
         setScore();
 
-        pictureResId = state.getInt(PICTURE_RES_ID);
-        pictureView.setImageResource(pictureResId);
-
-        questionPictureId = state.getLong(PICTURE_ID);
+        questionPainting = (Painting) state.getSerializable(PAINTING);
+        pictureView.setImageResource(questionPainting.getResourceName());
 
         hasChecked = state.getBoolean(HAS_CHECKED_KEY, false);
 
@@ -215,11 +211,10 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
         outState.putInt(WRONG_ANSWERS_KEY, wrongAnswers);
         outState.putInt(CORRECT_ANSWERS_KEY, correctAnswers);
         outState.putBoolean(HAS_CHECKED_KEY, hasChecked);
-        outState.putInt(PICTURE_RES_ID, pictureResId);
-        outState.putLong(PICTURE_ID, questionPictureId);
         outState.putInt(CORRECT_CHOICE, correctChoice);
         outState.putString(CORRECT_SAINT_NAME, correctSaintName);
         outState.putInt(USER_CHOICE, getCheckedButtonId());
+        outState.putSerializable(PAINTING, questionPainting);
 
         HashMap<Integer, String> buttonNames = new HashMap<>(4);
         for (int i = 0; i < buttons.size(); i++) {
@@ -253,15 +248,12 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
     }
 
     private void setQuestion() {
-        Painting paintingToGuess = unguessedPaintings.get(ran.nextInt(unguessedPaintings.size()));
+        questionPainting = unguessedPaintings.get(ran.nextInt(unguessedPaintings.size()));
 
-        final Saint correctSaint = saintsQuery.getSaint(this, paintingToGuess.getSaintId());
+        final Saint correctSaint = saintsQuery.getSaint(this, questionPainting.getSaintId());
         this.correctSaintName = correctSaint.getName();
 
-        pictureResId = paintingToGuess.getResourceName();
-        pictureView.setImageResource(pictureResId);
-
-        questionPictureId = paintingToGuess.getId();
+        pictureView.setImageResource(questionPainting.getResourceName());
 
         correctChoice = ran.nextInt(buttons.size());
 
@@ -320,12 +312,12 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
         }
         final boolean isCorrectAnswer = userChoiceId == correctChoice;
 
-        paintingsQuery.updateCorrectAnswersCount(this, questionPictureId, isCorrectAnswer);
+        paintingsQuery.updateCorrectAnswersCount(this, questionPainting.getId(), isCorrectAnswer);
 
         if (isCorrectAnswer) {
             correctAnswers++;
-            if (paintingsQuery.isCountOverTreshold(this.getApplicationContext(), questionPictureId)) {
-                unguessedPaintings.remove(new Painting (questionPictureId));
+            if (paintingsQuery.isCountOverTreshold(this.getApplicationContext(), questionPainting.getId())) {
+                unguessedPaintings.remove(new Painting (questionPainting.getId()));
             }
         } else {
             buttons.get(userChoiceId).setBackgroundColor(wrongChoiceColor);
