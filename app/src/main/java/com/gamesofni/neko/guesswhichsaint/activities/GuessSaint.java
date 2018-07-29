@@ -1,6 +1,7 @@
 package com.gamesofni.neko.guesswhichsaint.activities;
 
 
+import android.app.DialogFragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -33,10 +34,11 @@ import static com.gamesofni.neko.guesswhichsaint.db.SaintsQuery.FEMALE_KEY;
 import static com.gamesofni.neko.guesswhichsaint.db.SaintsQuery.MALE_KEY;
 
 
-public class GuessSaint extends AppCompatActivity {
+public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragment.ResetDbDialogListener {
 
     private static final String USER_CHOICE = "userChoice";
     public static final String CORRECT_SAINT_NAME = "correctSaintName";
+    public static final String TAG = GuessSaint.class.getSimpleName();
 
     private SaintsQuery saintsQuery;
     private PaintingsQuery paintingsQuery;
@@ -79,7 +81,7 @@ public class GuessSaint extends AppCompatActivity {
     private static final String PICTURE_ID = "pictureId";
     private static final String CORRECT_CHOICE = "correctChoice";
 
-    public static final int SCORE_MIN_GUESSES = 5;
+    public static final int MIN_GUESSES_FOR_SCORE_UPDATE = 5;
 
 
     @Override
@@ -87,7 +89,7 @@ public class GuessSaint extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setUp();
 
-        if (saintIds.size() < 4) {
+        if (saintIds.size() < 4 || unguessedPaintings.size() < 1) {
             return;
         }
 
@@ -121,6 +123,21 @@ public class GuessSaint extends AppCompatActivity {
         }
 
         unguessedPaintings = paintingsQuery.getAllUnguessedPaintings(this.getApplicationContext());
+
+        if (unguessedPaintings.size() < 1) {
+            setContentView(R.layout.guessed_all_paintings);
+
+            Button resetPaintingsScore = findViewById(R.id.reset_paintings_score);
+            resetPaintingsScore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick (View view) {
+                    DialogFragment resetConfirmationDialog = new ResetDbDialogFragment();
+                    resetConfirmationDialog.show(GuessSaint.this.getFragmentManager(), TAG);
+                }
+            });
+
+            return;
+        }
 
         setContentView(R.layout.activity_guess);
 
@@ -218,7 +235,7 @@ public class GuessSaint extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (wrongAnswers + correctAnswers < SCORE_MIN_GUESSES) {
+        if (wrongAnswers + correctAnswers < MIN_GUESSES_FOR_SCORE_UPDATE) {
             return;
         }
 
@@ -401,4 +418,13 @@ public class GuessSaint extends AppCompatActivity {
         }
         return 100 * ((float) correctAnswers / (float) (correctAnswers + wrongAnswers));
     }
+
+    @Override
+    public void onDialogPositiveClick(ResetDbDialogFragment dialog) {
+        paintingsQuery.reset_counters(getApplicationContext());
+        finish();
+        startActivity(getIntent());
+        Toast.makeText(this, R.string.reset_db_done, Toast.LENGTH_SHORT).show();
+    }
+
 }

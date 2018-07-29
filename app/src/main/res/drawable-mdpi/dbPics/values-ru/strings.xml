@@ -18,6 +18,9 @@
     <string name="settings_auto_next_on">Следующий вопрос показывается сразу после нажатия на кнопку "далее"</string>
     <string name="settings_auto_next_off">Нужно нажать "далее" дважды чтобы перейти к следующему вопросу</string>
 
+    <string name="settings_reset_option_title">Стереть данные об ответах</string>
+    <string name="settings_reset_option_summary">Стереть данные о правильно угаданных картинах</string>
+
 
 <!--guess saint screen-->
     <string name="score_message">Счет: %.0f%%</string>
@@ -27,9 +30,14 @@
     <string name="button_exit">выход</string>
     <string name="button_next">далее</string>
 
-<!--in case db is empty-->
-    <string name="empty_view_text">База данных выглядит пустой</string>
+    <!--in case db is empty-->
+    <string name="empty_view_text">База данных выглядит пустой, пожалуйста, переустановите приложение. Если проблема останется, пожалуйста сообщите нам об этом на sadnessexports@gmail.com.</string>
     <string name="empty_view_title_text">Что-то пошло не так…</string>
+
+    <!--in case all pictures are guessed-->
+    <string name="guessed_all_paintings_title_text">У нас закончились картины для отгадывания…</string>
+    <string name="guessed_all_paintings_text">Может быть, вы отгадали все картины? Поздравляем! Нажмите "Стереть данные", если хотите снова увидеть их.</string>
+    <string name="guessed_all_paintings_reset_button">Стереть данные</string>
 
 
 <!--saint info screen-->
@@ -43,6 +51,13 @@
     <string name="feedback_request_text">Вопрос, запрос на новую функцию, несогласие с тем, кто изображен на картине, отчет об ошибке или просто ваши мысли - мы рады получить любой отклик от вас. Спасибо!</string>
 
 
+<!--dialog reset counters in db-->
+    <string name="dialog_reset_db_counters_title">Данные нельзя будет восстановить!</string>
+    <string name="dialog_reset_db_counters_message">Все данные о ваших правильных ответах будут удалены!</string>
+    <string name="dialog_reset_db_confirm">Да, начать заново</string>
+    <string name="dialog_reset_db_cancel">Отмена</string>
+
+
 <!--toast messages-->
     <string name="no_answer_toast_text">Пожалуйста, выберите сначала свой ответ</string>
 
@@ -52,5 +67,7 @@
 
     <string name="unsupported_action_name_email">о email приложение</string>
     <string name="unsupported_action_name_browser">\u0020браузер</string>
-    
+
+    <string name="reset_db_done">Данные стерты!</string>
+
 </resources>

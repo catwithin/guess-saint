@@ -9,4 +9,12 @@
         android:summaryOn="@string/settings_auto_next_on"
         android:title="@string/settings_auto_next" />
 
+    <Preference
+        android:key="settings_reset_db"
+        android:title="@string/settings_reset_option_title"
+        android:summary="@string/settings_reset_option_summary"
+        >
+
+    </Preference>
+
 </PreferenceScreen>

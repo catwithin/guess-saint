@@ -125,4 +125,18 @@ public class PaintingsQuery {
         }
     }
 
+    public void reset_counters(Context context) {
+        SQLiteDatabase db = DbAccess.getDbAccess(context).getDatabase();
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(PaintingsContract.PaintingsEntry.COUNT, 0);
+
+            db.update(PaintingsContract.PaintingsEntry.TABLE_NAME, cv, null,null);
+
+        } finally {
+            DbAccess.getDbAccess(context).closeDatabase();
+        }
+    }
+
+
 }
