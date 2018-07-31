@@ -28,6 +28,11 @@ public class DbAccess {
         return database;
     }
 
+    // hack for cursor adapter list
+    public static SQLiteDatabase getDatabaseInstance(Context context) {
+        return new SaintsDbHelper(context).getWritableDatabase();
+    }
+
     private void openDatabase() {
         if (database != null) {
             android.util.Log.w(TAG, "DB was opened before and it seems it wasn't properly closed");
@@ -35,7 +40,7 @@ public class DbAccess {
         this.database = openHelper.getWritableDatabase();
     }
 
-    void closeDatabase() {
+    public void closeDatabase() {
         if (database != null) {
             this.database.close();
             this.database = null;

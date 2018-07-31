@@ -3,6 +3,7 @@ package com.gamesofni.neko.guesswhichsaint.db;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.text.TextUtils;
 
@@ -29,9 +30,7 @@ public class SaintsQuery {
         return SaintsContract.SaintEntry.TABLE_NAME + " , " + context.getString(SaintsContract.SaintTranslation.TABLE_NAME);
     }
 
-    // move to List SaintsList - manage db connection there
-    // https://stackoverflow.com/questions/5225374/android-sqlite-leak-problem-with-cursoradapter
-    public Cursor getAllSaintsWithIcons(Context context) {
+    public static Cursor getAllSaintsWithIcons(Context context, SQLiteDatabase db) {
         String[] projection = {
             SaintsContract.SaintEntry._ID,
             SaintsContract.SaintEntry.ICON,
@@ -40,19 +39,17 @@ public class SaintsQuery {
         };
         String sortOrder = SaintsContract.SaintTranslation.NAME + " ASC";
 
-        final String filterNoneOfTheAbove = " NOT " + SaintsContract.SaintEntry._ID + "=" + String.valueOf(0);
-        // TODO: do in another thread
-        Cursor result = DbAccess.getDbAccess(context).getDatabase().query(
+        final String filterNoneOfTheAboveMagi = " NOT " + SaintsContract.SaintEntry._ID + "=" + String.valueOf(0);
+        return db.query(
             saintsJoinedTranslationTable(context),
             projection,
-            JOIN_TRANSLATION_CONDITION + " AND " + filterNoneOfTheAbove,
+            JOIN_TRANSLATION_CONDITION + " AND " + filterNoneOfTheAboveMagi,
             null, null, null,
             sortOrder
         );
-        return result;
     }
 
-    private Cursor queryAllSaintsWithCategories(Context context) {
+    private static Cursor queryAllSaintsWithCategories(Context context) {
         String[] projection = {
             SaintsContract.SaintEntry._ID,
             SaintsContract.SaintTranslation.NAME,
@@ -69,7 +66,7 @@ public class SaintsQuery {
         );
     }
 
-    public Map<String, Map<Long, String>> getAllSaintsIdToNames(Context context) {
+    public static Map<String, Map<Long, String>> getAllSaintsIdToNames(Context context) {
         Cursor cursor =  queryAllSaintsWithCategories(context);
 
         HashMap<Long, String> saintIdsToNamesMale = new HashMap<>();
@@ -109,7 +106,7 @@ public class SaintsQuery {
         return allSaintsGrouped;
     }
 
-    public Saint getSaint(Context context, long id) {
+    public static Saint getSaint(Context context, long id) {
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
         queryBuilder.setTables(SaintsContract.SaintEntry.TABLE_NAME + " AS s " +
             " INNER JOIN " + PaintingsContract.PaintingsEntry.TABLE_NAME + " AS p " +

@@ -40,7 +40,6 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
     public static final String CORRECT_SAINT_NAME = "correctSaintName";
     public static final String TAG = GuessSaint.class.getSimpleName();
 
-    private SaintsQuery saintsQuery;
     private PaintingsQuery paintingsQuery;
 
     private HashSet<Long> saintIds;
@@ -100,10 +99,9 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         autoNext = sharedPreferences.getBoolean("autoNext", false);
 
-        this.saintsQuery = new SaintsQuery();
         this.paintingsQuery = new PaintingsQuery();
 
-        Map<String, Map <Long, String>> allSaintsIdToNamesByCategory = saintsQuery.getAllSaintsIdToNames(this.getApplicationContext());
+        Map<String, Map <Long, String>> allSaintsIdToNamesByCategory = SaintsQuery.getAllSaintsIdToNames(this.getApplicationContext());
 
         saintIdsToNamesFemale = allSaintsIdToNamesByCategory.get(FEMALE_KEY);
         saintIdsToNamesMale = allSaintsIdToNamesByCategory.get(MALE_KEY);
@@ -250,7 +248,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
     private void setQuestion() {
         questionPainting = unguessedPaintings.get(ran.nextInt(unguessedPaintings.size()));
 
-        final Saint correctSaint = saintsQuery.getSaint(this, questionPainting.getSaintId());
+        final Saint correctSaint = SaintsQuery.getSaint(this, questionPainting.getSaintId());
         this.correctSaintName = correctSaint.getName();
 
         pictureView.setImageResource(questionPainting.getResourceName());

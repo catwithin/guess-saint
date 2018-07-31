@@ -43,8 +43,7 @@ public class SaintInfo extends AppCompatActivity {
         TextView saint_attributes = findViewById(R.id.saint_attributes);
         ImageView saint_icon = findViewById(R.id.info_saint_icon);
 
-        SaintsQuery db = new SaintsQuery();
-        Saint saint = db.getSaint(this, saintId);
+        Saint saint = SaintsQuery.getSaint(this, saintId);
 
         if (saint == null) {
             return;

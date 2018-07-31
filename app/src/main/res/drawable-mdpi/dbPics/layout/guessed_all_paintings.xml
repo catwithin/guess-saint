@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:padding="@dimen/activity_padding"
+    android:layout_margin="@dimen/activity_vertical_margin"
+    >
+
+    <TextView
+        android:id="@+id/guessed_all_paintings_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:text="@string/guessed_all_paintings_title_text"
+        android:textAppearance="?android:textAppearanceLarge"/>
+
+    <TextView
+        android:id="@+id/guessed_all_paintings_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:text="@string/guessed_all_paintings_text"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@color/color_primary_text_dark"/>
+
+    <ImageView
+        android:id="@+id/saint_francis_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/activity_padding"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:scaleType="centerInside"
+        android:src="@drawable/saint_francis_empty"/>
+
+    <Button
+        android:id="@+id/reset_paintings_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/guessed_all_paintings_reset_button"
+        android:layout_margin="@dimen/activity_vertical_margin"
+
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:theme="@style/Button"
+        />
+
+</LinearLayout>
