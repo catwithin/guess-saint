@@ -40,8 +40,6 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
     public static final String CORRECT_SAINT_NAME = "correctSaintName";
     public static final String TAG = GuessSaint.class.getSimpleName();
 
-    private PaintingsQuery paintingsQuery;
-
     private HashSet<Long> saintIds;
     private Map<Long, String> saintIdsToNamesFemale;
     private Map<Long, String> saintIdsToNamesMale;
@@ -99,8 +97,6 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         autoNext = sharedPreferences.getBoolean("autoNext", false);
 
-        this.paintingsQuery = new PaintingsQuery();
-
         Map<String, Map <Long, String>> allSaintsIdToNamesByCategory = SaintsQuery.getAllSaintsIdToNames(this.getApplicationContext());
 
         saintIdsToNamesFemale = allSaintsIdToNamesByCategory.get(FEMALE_KEY);
@@ -118,7 +114,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
             return;
         }
 
-        unguessedPaintings = paintingsQuery.getAllUnguessedPaintings(this.getApplicationContext());
+        unguessedPaintings = PaintingsQuery.getAllUnguessedPaintings(this.getApplicationContext());
 
         if (unguessedPaintings.size() < 1) {
             setContentView(R.layout.guessed_all_paintings);
@@ -310,11 +306,11 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
         }
         final boolean isCorrectAnswer = userChoiceId == correctChoice;
 
-        paintingsQuery.updateCorrectAnswersCount(this, questionPainting.getId(), isCorrectAnswer);
+        PaintingsQuery.updateCorrectAnswersCount(this, questionPainting.getId(), isCorrectAnswer);
 
         if (isCorrectAnswer) {
             correctAnswers++;
-            if (paintingsQuery.isCountOverTreshold(this.getApplicationContext(), questionPainting.getId())) {
+            if (PaintingsQuery.isCountOverTreshold(this.getApplicationContext(), questionPainting.getId())) {
                 unguessedPaintings.remove(new Painting (questionPainting.getId()));
             }
         } else {
@@ -411,7 +407,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
 
     @Override
     public void onDialogPositiveClick(ResetDbDialogFragment dialog) {
-        paintingsQuery.reset_counters(getApplicationContext());
+        PaintingsQuery.reset_counters(getApplicationContext());
         finish();
         startActivity(getIntent());
         Toast.makeText(this, R.string.reset_db_done, Toast.LENGTH_SHORT).show();

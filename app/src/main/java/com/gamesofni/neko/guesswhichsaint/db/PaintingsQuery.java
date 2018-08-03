@@ -6,10 +6,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
 import com.gamesofni.neko.guesswhichsaint.data.Painting;
-
 import java.util.ArrayList;
+
 
 public class PaintingsQuery {
 
@@ -17,7 +16,7 @@ public class PaintingsQuery {
     private static final int CORRECT_COUNT_TRESHOLD = 2;
     private static final String TAG = PaintingsQuery.class.getSimpleName();
 
-    public void updateCorrectAnswersCount(Context context, long id, boolean isCorrectAnswer) {
+    public static void updateCorrectAnswersCount(Context context, long id, boolean isCorrectAnswer) {
 
         // TODO: do in another thread
         SQLiteDatabase db = DbAccess.getDbAccess(context).getDatabase();
@@ -35,7 +34,7 @@ public class PaintingsQuery {
             cursor.close();
 
             ContentValues cv = new ContentValues();
-            // we want to check later for 3 straight answers in a row => increment counter on correct answer, reset to 0 on incorrect
+            // we want to check later for CORRECT_COUNT_TRESHOLD straight answers in a row => increment counter on correct answer, reset to 0 on incorrect
             cv.put(PaintingsContract.PaintingsEntry.COUNT, isCorrectAnswer ? currentCorrectCount + 1 : 0);
 
             // put updated correct count
@@ -49,7 +48,7 @@ public class PaintingsQuery {
 
     }
 
-    public ArrayList<Painting> getAllUnguessedPaintings(Context context) {
+    public static ArrayList<Painting> getAllUnguessedPaintings(Context context) {
         ArrayList<Painting> unguessedPaintings = new ArrayList<>();
 
         Cursor cursor =  queryAllPaintingsWithLowScore(context);
@@ -65,13 +64,13 @@ public class PaintingsQuery {
         return unguessedPaintings;
     }
 
-    public boolean isCountOverTreshold(Context context, long paintingId) {
+    public static boolean isCountOverTreshold(Context context, long paintingId) {
         Painting p = getPainting(context, paintingId);
         Log.d(TAG, "Guessed correctly painting " + p.toString());
         return p.getCorrectCount() >= CORRECT_COUNT_TRESHOLD;
     }
 
-    private Cursor queryAllPaintingsWithLowScore(Context context) {
+    private static Cursor queryAllPaintingsWithLowScore(Context context) {
         // return paintings for quiz which were guessed correctly less than 2 times in a row
         String[] projection = {
                 PaintingsContract.PaintingsEntry._ID,
@@ -93,7 +92,7 @@ public class PaintingsQuery {
         );
     }
 
-    private Painting getPainting(Context context, long id) {
+    private static Painting getPainting(Context context, long id) {
         String[] projection = {
                 PaintingsContract.PaintingsEntry._ID,
                 PaintingsContract.PaintingsEntry.FILE_NAME,
@@ -125,7 +124,7 @@ public class PaintingsQuery {
         }
     }
 
-    public void reset_counters(Context context) {
+    public static void reset_counters(Context context) {
         SQLiteDatabase db = DbAccess.getDbAccess(context).getDatabase();
         try {
             ContentValues cv = new ContentValues();

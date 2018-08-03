@@ -18,8 +18,7 @@ public class Settings extends AppCompatActivity implements ResetDbDialogFragment
 
     @Override
     public void onDialogPositiveClick(ResetDbDialogFragment dialog) {
-        PaintingsQuery paintingsQuery = new PaintingsQuery();
-        paintingsQuery.reset_counters(this.getApplicationContext());
+        PaintingsQuery.reset_counters(this.getApplicationContext());
         Toast.makeText(this.getApplicationContext(), R.string.reset_db_done, Toast.LENGTH_SHORT).show();
     }
 }
