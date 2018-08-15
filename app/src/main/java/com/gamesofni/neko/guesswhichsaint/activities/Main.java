@@ -19,28 +19,21 @@ import static com.gamesofni.neko.guesswhichsaint.utils.Utils.showNoAppClientsMsg
 
 
 public class Main extends AppCompatActivity {
-// todo: Invalid package name : Perhaps you didn't include a PendingIntent in the extras?
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main_redesigned);
 
-        Button guessActivityCard = (Button) findViewById(R.id.mainScreenGuessActivityButton);
-        guessActivityCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                startActivity(new Intent(Main.this, GuessSaint.class));
-            }
-        });
+        Button guessActivityCard = findViewById(R.id.mainScreenGuessActivityButton);
+        guessActivityCard.setOnClickListener(
+                view -> startActivity(new Intent(Main.this, GuessSaint.class))
+        );
 
-        Button saintsListActivityCard = (Button) findViewById(R.id.mainScreenSaintsListActivity);
-        saintsListActivityCard .setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                startActivity(new Intent(Main.this, SaintsList.class));
-            }
-        });
+        Button saintsListActivityCard = findViewById(R.id.mainScreenSaintsListActivity);
+        saintsListActivityCard .setOnClickListener(
+                view -> startActivity(new Intent(Main.this, SaintsList.class))
+        );
 
     }
 
@@ -50,7 +43,7 @@ public class Main extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float savedScore = sharedPreferences.getFloat("score", 0.0f);
-        TextView scoreValue = (TextView) findViewById(R.id.mainScreenGuessSaintsScoreValue);
+        TextView scoreValue = findViewById(R.id.mainScreenGuessSaintsScoreValue);
         scoreValue.setText(String.format(getString(R.string.score_main_screen), savedScore));
     }
 

@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.gamesofni.neko.guesswhichsaint.R;
@@ -41,12 +39,7 @@ public class SaintsList extends AppCompatActivity {
         ListView saintsList = findViewById(R.id.activity_list_saints);
         SaintsCursorAdapter saintsCursorAdapter = new SaintsCursorAdapter(this, cursor);
         saintsList.setAdapter(saintsCursorAdapter);
-        saintsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                onCursorItemListCLick(id);
-            }
-        });
+        saintsList.setOnItemClickListener((parent, view, position, id) -> onCursorItemListCLick(id));
 
         getWindow().setBackgroundDrawable(null); // reduces overdraw
 

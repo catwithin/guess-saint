@@ -59,12 +59,7 @@ public class SaintInfo extends AppCompatActivity {
 
         final String wikiUrl = saint.getWikiUrl();
         Button wikiButton = findViewById(R.id.wiki_article_button);
-        wikiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openBrowserLink(v, wikiUrl);
-            }
-        });
+        wikiButton.setOnClickListener(v -> openBrowserLink(v, wikiUrl));
 
     }
 

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import com.gamesofni.neko.guesswhichsaint.R;
 
@@ -31,18 +30,13 @@ public class ResetDbDialogFragment extends DialogFragment {
         builder.setTitle(R.string.dialog_reset_db_counters_title);
         builder.setMessage(R.string.dialog_reset_db_counters_message);
 
-        builder.setPositiveButton(R.string.dialog_reset_db_confirm, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // Send the positive button event back to the host activity
-                    dialogListener.onDialogPositiveClick(ResetDbDialogFragment.this);
-                }
+        builder.setPositiveButton(R.string.dialog_reset_db_confirm, (dialog, id) -> {
+            // Send the positive button event back to the host activity
+            dialogListener.onDialogPositiveClick(ResetDbDialogFragment.this);
         });
 
-        builder.setNegativeButton(R.string.dialog_reset_db_cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // only here for the "Cancel" button to b displayed
-                }
-        });
+        // only here for the "Cancel" button to b displayed
+        builder.setNegativeButton(R.string.dialog_reset_db_cancel, (dialog, id) -> {});
 
         return builder.create();
     }

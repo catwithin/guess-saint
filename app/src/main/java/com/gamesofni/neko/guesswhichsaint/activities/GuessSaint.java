@@ -120,13 +120,12 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
             setContentView(R.layout.guessed_all_paintings);
 
             Button resetPaintingsScore = findViewById(R.id.reset_paintings_score);
-            resetPaintingsScore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick (View view) {
-                    DialogFragment resetConfirmationDialog = new ResetDbDialogFragment();
-                    resetConfirmationDialog.show(GuessSaint.this.getFragmentManager(), TAG);
-                }
-            });
+            resetPaintingsScore.setOnClickListener(
+                    view -> {
+                        DialogFragment resetConfirmationDialog = new ResetDbDialogFragment();
+                        resetConfirmationDialog.show(GuessSaint.this.getFragmentManager(), TAG);
+                    }
+            );
 
             return;
         }
@@ -142,27 +141,18 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
         setUpButtons();
 
         Button guessActivityCheckButton = findViewById(R.id.guess_menu_next);
-        guessActivityCheckButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                onSubmitChoice(view);
-            }
-        });
+        guessActivityCheckButton.setOnClickListener(this::onSubmitChoice);
 
         final Button guessActivityBackButton = findViewById(R.id.guess_menu_back);
-        guessActivityBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                GuessSaint.this.onBackPressed();
-            }
-        });
+        guessActivityBackButton.setOnClickListener(view -> GuessSaint.this.onBackPressed());
 
     }
 
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        if (savedInstanceState.containsKey(CORRECT_ANSWERS_KEY) && savedInstanceState.containsKey(WRONG_ANSWERS_KEY)) {
+        if (savedInstanceState.containsKey(CORRECT_ANSWERS_KEY)
+                && savedInstanceState.containsKey(WRONG_ANSWERS_KEY)) {
             restoreState(savedInstanceState);
         }
         super.onRestoreInstanceState(savedInstanceState);
@@ -346,12 +336,10 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
 
 
     private void setUpButtons() {
-        CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton button, boolean isChecked) {
-                if (isChecked) {
-                    clearAllButtons();
-                    button.setChecked(true);
-                }
+        CompoundButton.OnCheckedChangeListener onCheckedChangeListener = (button, isChecked) -> {
+            if (isChecked) {
+                clearAllButtons();
+                button.setChecked(true);
             }
         };
 

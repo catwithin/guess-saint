@@ -4,6 +4,7 @@ import android.content.Context;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 
+// TODO: Take a look at Android Room db lib
 class SaintsDbHelper extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "saints.db";

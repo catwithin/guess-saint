@@ -15,13 +15,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.pref_vizualizer);
         Preference resetDb = findPreference("settings_reset_db");
-        resetDb.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                DialogFragment resetConfirmationDialog = new ResetDbDialogFragment();
-                resetConfirmationDialog.show(getActivity().getFragmentManager(), TAG);
-                return true;
-            }
-        });
+        resetDb.setOnPreferenceClickListener(
+                preference -> {
+                    DialogFragment resetConfirmationDialog = new ResetDbDialogFragment();
+                    resetConfirmationDialog.show(getActivity().getFragmentManager(), TAG);
+                    return true;
+                }
+        );
     }
 
 

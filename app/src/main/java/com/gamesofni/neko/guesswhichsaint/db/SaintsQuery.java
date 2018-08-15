@@ -57,7 +57,6 @@ public class SaintsQuery {
             SaintsContract.SaintEntry.CATEGORY
         };
 
-        // TODO: do in another thread
         return DbAccess.getDbAccess(context).getDatabase().query(
             saintsJoinedTranslationTable(context),
             projection,
@@ -129,7 +128,6 @@ public class SaintsQuery {
         };
         final String selection = "s." + SaintsContract.SaintEntry._ID + " = ?";
         final String[] selectionArgs = { String.valueOf(id) };
-        // TODO: do in another thread
         Cursor cursor = queryBuilder.query(
                 DbAccess.getDbAccess(context).getDatabase(),
                 projection,
@@ -174,7 +172,6 @@ public class SaintsQuery {
                 (idColumnIndex != -1) ? cursor.getLong(idColumnIndex) : -1,
                 (nameColumnIndex != -1) ? cursor.getString(nameColumnIndex) : null,
                 paintings,
-                // TODO: stub, save attr in separate table
                 (attributesColumnIndex != -1) ?
                         new ArrayList<>(Arrays.asList(TextUtils.split(cursor.getString(attributesColumnIndex), ","))) :
                         null,

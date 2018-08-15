@@ -13,12 +13,11 @@ import java.util.ArrayList;
 public class PaintingsQuery {
 
 
-    private static final int CORRECT_COUNT_TRESHOLD = 2;
+    private static final int CORRECT_COUNT_THRESHOLD = 2;
     private static final String TAG = PaintingsQuery.class.getSimpleName();
 
     public static void updateCorrectAnswersCount(Context context, long id, boolean isCorrectAnswer) {
 
-        // TODO: do in another thread
         SQLiteDatabase db = DbAccess.getDbAccess(context).getDatabase();
         db.beginTransaction();
 
@@ -34,11 +33,20 @@ public class PaintingsQuery {
             cursor.close();
 
             ContentValues cv = new ContentValues();
-            // we want to check later for CORRECT_COUNT_TRESHOLD straight answers in a row => increment counter on correct answer, reset to 0 on incorrect
-            cv.put(PaintingsContract.PaintingsEntry.COUNT, isCorrectAnswer ? currentCorrectCount + 1 : 0);
+            // we want to check later for CORRECT_COUNT_THRESHOLD straight answers in a row
+            // => increment counter on correct answer, reset to 0 on incorrect
+            cv.put(
+                    PaintingsContract.PaintingsEntry.COUNT,
+                    isCorrectAnswer ? currentCorrectCount + 1 : 0
+            );
 
             // put updated correct count
-            db.update(PaintingsContract.PaintingsEntry.TABLE_NAME, cv, PaintingsContract.PaintingsEntry._ID + "=?", new String[]{String.valueOf(id)});
+            db.update(
+                    PaintingsContract.PaintingsEntry.TABLE_NAME,
+                    cv,
+                    PaintingsContract.PaintingsEntry._ID + "=?",
+                    new String[]{String.valueOf(id)}
+            );
 
             db.setTransactionSuccessful();
         } finally {
@@ -67,7 +75,7 @@ public class PaintingsQuery {
     public static boolean isCountOverTreshold(Context context, long paintingId) {
         Painting p = getPainting(context, paintingId);
         Log.d(TAG, "Guessed correctly painting " + p.toString());
-        return p.getCorrectCount() >= CORRECT_COUNT_TRESHOLD;
+        return p.getCorrectCount() >= CORRECT_COUNT_THRESHOLD;
     }
 
     private static Cursor queryAllPaintingsWithLowScore(Context context) {
@@ -80,9 +88,8 @@ public class PaintingsQuery {
         };
 
         final String selection = PaintingsContract.PaintingsEntry.COUNT + " < ?";
-        final String[] selectionArgs = {String.valueOf(CORRECT_COUNT_TRESHOLD)};
+        final String[] selectionArgs = {String.valueOf(CORRECT_COUNT_THRESHOLD)};
 
-        // TODO: do in another thread
         return DbAccess.getDbAccess(context).getDatabase().query(
                 PaintingsContract.PaintingsEntry.TABLE_NAME,
                 projection,
@@ -103,7 +110,6 @@ public class PaintingsQuery {
         final String selection = PaintingsContract.PaintingsEntry._ID + " = ?";
         final String[] selectionArgs = {String.valueOf(id)};
 
-        // TODO: do in another thread
         Cursor cursor = DbAccess.getDbAccess(context).getDatabase().query(
                 PaintingsContract.PaintingsEntry.TABLE_NAME,
                 projection,
@@ -130,7 +136,12 @@ public class PaintingsQuery {
             ContentValues cv = new ContentValues();
             cv.put(PaintingsContract.PaintingsEntry.COUNT, 0);
 
-            db.update(PaintingsContract.PaintingsEntry.TABLE_NAME, cv, null,null);
+            db.update(
+                    PaintingsContract.PaintingsEntry.TABLE_NAME,
+                    cv,
+                    null,
+                    null
+            );
 
         } finally {
             DbAccess.getDbAccess(context).closeDatabase();
