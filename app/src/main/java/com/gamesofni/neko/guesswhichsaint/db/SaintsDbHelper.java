@@ -8,7 +8,7 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 class SaintsDbHelper extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "saints.db";
-    private static final int DATABASE_VERSION = 29;
+    private static final int DATABASE_VERSION = 30;
 
     // 28 is the last version which just copies db from assets
     // from this version on user data is stored in the paintings table
