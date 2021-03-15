@@ -5,7 +5,7 @@ import com.gamesofni.neko.guesswhichsaint.R;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
+import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
 
 public class Utils {
