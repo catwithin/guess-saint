@@ -21,7 +21,6 @@ android {
         main {
             res.srcDirs =
                     [
-                            'src/main/res/drawable-mdpi/dbPics',
                             'src/main/res'
                     ]
         }
