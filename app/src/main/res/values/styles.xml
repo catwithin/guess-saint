@@ -1,44 +1,15 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <!--<item name="colorPrimary">#009688</item>-->
-        <item name="colorPrimary">#03A9F4</item>
-        <!--<item name="colorPrimaryDark">#00796B</item>-->
-        <item name="colorPrimaryDark">#0288D1</item>
-
-
-        <item name="colorAccent">#FFC107</item>
-        <!--<item name="colorPrimary">#FFC107</item>-->
-        <!--<item name="colorPrimaryDark">#FFA000</item>-->
-        <!--<item name="colorAccent">#FF6F00</item>-->
-
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-        <item name="android:colorBackground">@android:color/white</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="Base.ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:textColorPrimary">@android:color/white</item>
-
-    </style>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-
-
-    <style name="Button" parent="ThemeOverlay.AppCompat">
-        <item name="colorAccent">#03A9F4</item>
-    </style>
-
-    <style name="buttonStyle">
-        <item name="android:background">#03A9F4</item>
+        <item name="colorPrimary">@color/beige_500</item>
+        <item name="colorPrimaryDark">@color/beige_700</item>
+        <item name="colorPrimaryVariant">@color/beige_200</item>
+        <item name="colorSecondary">@color/bordo_accent</item>
+        <item name="colorAccent">@color/bordo_accent</item>
+        <item name="colorSurface">@color/yellow_50</item>
+        <item name="colorOnSurface">@color/bordo_accent</item>
     </style>
 
 </resources>
