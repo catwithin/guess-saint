@@ -5,17 +5,16 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
 
-            android:background="@color/color_primary_dark"
             android:layout_alignParentBottom="true"
 
             android:layout_gravity="bottom">
-            <Button
-                android:id="@+id/guess_menu_back"
+            <com.google.android.material.button.MaterialButton
+
+              android:id="@+id/guess_menu_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:theme="@style/Button"
 
                 android:text="@string/button_exit"
                 android:drawableLeft="@drawable/ic_navigate_before_white_24px"
@@ -32,18 +31,18 @@
                 android:layout_width="wrap_content"
 
                 android:textSize="20sp"
-                android:textColor="@color/color_text_main_screen"
+                android:textColor="@color/primaryTextColor"
                 android:gravity="center"
 
                 android:layout_centerHorizontal="true"
                 />
-            <Button
-                android:id="@+id/guess_menu_next"
+            <com.google.android.material.button.MaterialButton
+
+              android:id="@+id/guess_menu_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:theme="@style/Button"
 
                 android:text="@string/button_next"
 

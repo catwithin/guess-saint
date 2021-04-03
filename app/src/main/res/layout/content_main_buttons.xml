@@ -14,8 +14,6 @@
         android:text="@string/default_high_score_value"
         android:textStyle="bold"
         android:textSize="60sp"
-        android:textColor="@color/color_text_main_screen"
-        android:textColorHighlight="@color/color_text_main_screen"
 
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/mainScreenGuessSaintsScoreText"
@@ -32,8 +30,6 @@
 
         android:textStyle="bold"
         android:textSize="20sp"
-        android:textColor="@color/color_text_main_screen"
-        android:textColorHighlight="@color/color_text_main_screen"
 
         android:layout_gravity="center"
         android:layout_centerHorizontal="true"
@@ -44,7 +40,8 @@
 
     />
 
-    <androidx.appcompat.widget.AppCompatButton
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/mainScreenGuessActivityButton"
 
         android:text="@string/button_start"
@@ -52,16 +49,14 @@
         android:layout_width="250dp"
         android:layout_height="50dp"
 
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:theme="@style/Button"
-
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/mainScreenSaintsListActivity"
     >
-    </androidx.appcompat.widget.AppCompatButton>
+    </com.google.android.material.button.MaterialButton>
 
-    <Button
-        android:id="@+id/mainScreenSaintsListActivity"
+    <com.google.android.material.button.MaterialButton
+
+      android:id="@+id/mainScreenSaintsListActivity"
 
         android:text="@string/button_info"
 
@@ -69,11 +64,9 @@
         android:layout_height="50dp"
 
         style="@style/Widget.AppCompat.Button.Colored"
-        android:theme="@style/Button"
 
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-    >
-    </Button>
+    />
 
 </RelativeLayout>

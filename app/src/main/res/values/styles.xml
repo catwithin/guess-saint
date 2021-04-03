@@ -10,6 +10,16 @@
         <item name="colorAccent">@color/bordo_accent</item>
         <item name="colorSurface">@color/yellow_50</item>
         <item name="colorOnSurface">@color/bordo_accent</item>
+
+    </style>
+
+    <style name="GuessButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/guess_button</item>
+        <item name="elevation">8dp</item>
+    </style>
+
+    <style name="round_button" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">8dp</item>
     </style>
 
 </resources>
@@ -18,3 +28,10 @@
     <!--&lt;!&ndash;<item name="android:background">#FF6F00</item>&ndash;&gt;-->
     <!--<item name="android:background">#FFC107</item>-->
     <!--</style>-->
+
+<!--<style name="AppTheme.NoActionBar">-->
+<!--<item name="windowActionBar">false</item>-->
+<!--<item name="windowNoTitle">true</item>-->
+<!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+<!--<item name="preferenceTheme">@style/PreferenceThemeOverlay</item>-->
+<!--</style>-->

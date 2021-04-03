@@ -23,7 +23,7 @@
         android:paddingTop="8dp"
         android:text="@string/guessed_all_paintings_text"
         android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@color/color_primary_text_dark"/>
+        android:textColor="@color/primaryTextColor"/>
 
     <ImageView
         android:id="@+id/saint_francis_empty"
@@ -34,16 +34,14 @@
         android:scaleType="centerInside"
         android:src="@drawable/saint_francis_empty"/>
 
-    <Button
-        android:id="@+id/reset_paintings_score"
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/reset_paintings_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/guessed_all_paintings_reset_button"
         android:layout_margin="@dimen/activity_vertical_margin"
 
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:theme="@style/Button"
         />
 
 </LinearLayout>

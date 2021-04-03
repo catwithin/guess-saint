@@ -3,12 +3,13 @@ package com.gamesofni.neko.guesswhichsaint.activities;
 
 import android.app.DialogFragment;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -19,6 +20,7 @@ import com.gamesofni.neko.guesswhichsaint.data.Saint;
 import com.gamesofni.neko.guesswhichsaint.db.PaintingsQuery;
 import com.gamesofni.neko.guesswhichsaint.db.SaintsContract;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,6 +29,8 @@ import java.util.Random;
 
 import com.gamesofni.neko.guesswhichsaint.db.SaintsQuery;
 import com.github.chrisbanes.photoview.PhotoView;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import static com.gamesofni.neko.guesswhichsaint.db.SaintsContract.CATEGORY_MAGI;
 import static com.gamesofni.neko.guesswhichsaint.db.SaintsQuery.CATEGORY_MAGI_KEY;
@@ -47,7 +51,8 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
 
     private ArrayList<Painting> unguessedPaintings;
 
-    private ArrayList<ToggleButton> buttons;
+    private ArrayList<MaterialButton> buttons;
+    MaterialButtonToggleGroup optionsGroup;
     private String correctSaintName;
 
     private int correctChoice;
@@ -65,6 +70,9 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
 
     private int correctChoiceColor;
     private int wrongChoiceColor;
+    private ColorStateList defaultTint;
+    private ColorStateList colorStateCorrect;
+    private ColorStateList colorStateWrong;
 
     private Toast correctAnswerToast;
     private Toast noAnswerToast;
@@ -75,6 +83,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
     public static final String BUTTON_NAMES = "buttonNames";
     private static final String PAINTING = "painting";
     private static final String CORRECT_CHOICE = "correctChoice";
+    private static final String TINT = "tint";
 
     public static final int MIN_GUESSES_FOR_SCORE_UPDATE = 5;
 
@@ -97,6 +106,8 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         autoNext = sharedPreferences.getBoolean("autoNext", false);
 
+
+        // retrieve all saints
         Map<String, Map <Long, String>> allSaintsIdToNamesByCategory = SaintsQuery.getAllSaintsIdToNames(this.getApplicationContext());
 
         saintIdsToNamesFemale = allSaintsIdToNamesByCategory.get(FEMALE_KEY);
@@ -114,6 +125,8 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
             return;
         }
 
+
+        // retrieve unguessed paintings and set up reset if none left
         unguessedPaintings = PaintingsQuery.getAllUnguessedPaintings(this.getApplicationContext());
 
         if (unguessedPaintings.size() < 1) {
@@ -130,15 +143,23 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
             return;
         }
 
+
+        // set up quiz view
         setContentView(R.layout.activity_guess);
 
         pictureView = findViewById(R.id.guessMergeImageView);
         scoreView = findViewById(R.id.guess_menu_score);
+        optionsGroup = findViewById(R.id.optionsGroup);
 
-        correctChoiceColor = getResources().getColor(R.color.awesome_green);
-        wrongChoiceColor = getResources().getColor(R.color.bad_red);
+        setUpColors();
 
         setUpButtons();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            defaultTint = getColorStateList(R.color.guess_button);
+        } else {
+            defaultTint = buttons.get(0).getBackgroundTintList();
+        }
 
         Button guessActivityCheckButton = findViewById(R.id.guess_menu_next);
         guessActivityCheckButton.setOnClickListener(this::onSubmitChoice);
@@ -148,11 +169,37 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
 
     }
 
+    private void setUpColors() {
+        correctChoiceColor = getResources().getColor(R.color.awesome_green);
+        wrongChoiceColor = getResources().getColor(R.color.bad_red);
+
+        int[][] states = new int[][] {
+                new int[] { android.R.attr.state_checked}, // enabled
+                new int[] {-android.R.attr.state_checked}, // unchecked
+        };
+
+        int[] correct_colors = new int[] {
+                correctChoiceColor,
+                correctChoiceColor,
+        };
+
+
+        int[] wrong_colors = new int[] {
+                wrongChoiceColor,
+                wrongChoiceColor,
+        };
+
+
+        colorStateCorrect = new ColorStateList(states, correct_colors);
+        colorStateWrong = new ColorStateList(states, wrong_colors);
+    }
+
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState.containsKey(CORRECT_ANSWERS_KEY)
                 && savedInstanceState.containsKey(WRONG_ANSWERS_KEY)) {
+//            setUp();
             restoreState(savedInstanceState);
         }
         super.onRestoreInstanceState(savedInstanceState);
@@ -170,7 +217,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
 
         HashMap<Integer, String> buttonNames = (HashMap<Integer, String>) state.getSerializable(BUTTON_NAMES);
         for (Map.Entry<Integer, String> e : buttonNames.entrySet()) {
-            setNameOnButton(buttons.get(e.getKey()), e.getValue());
+            buttons.get(e.getKey()).setText(e.getValue());
         }
         clearAllButtons();
 
@@ -181,9 +228,9 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
             buttons.get(userChoice).setChecked(true);
             if (hasChecked) {
                 if (userChoice != correctChoice) {
-                    buttons.get(userChoice).setBackgroundColor(wrongChoiceColor);
+                    buttons.get(userChoice).setBackgroundTintList(colorStateWrong);
                 }
-                buttons.get(correctChoice).setBackgroundColor(correctChoiceColor);
+                buttons.get(correctChoice).setBackgroundTintList(colorStateCorrect);
             }
         }
 
@@ -197,7 +244,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
         outState.putBoolean(HAS_CHECKED_KEY, hasChecked);
         outState.putInt(CORRECT_CHOICE, correctChoice);
         outState.putString(CORRECT_SAINT_NAME, correctSaintName);
-        outState.putInt(USER_CHOICE, getCheckedButtonId());
+        outState.putInt(USER_CHOICE, getCheckedButtonId(optionsGroup.getCheckedButtonId()));
         outState.putSerializable(PAINTING, questionPainting);
 
         HashMap<Integer, String> buttonNames = new HashMap<>(4);
@@ -241,6 +288,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
 
         correctChoice = ran.nextInt(buttons.size());
 
+        // get suitable saints for the options
         ArrayList<Long> saintsListIds;
 
         if (correctSaint.getGender().equals(SaintsContract.GENDER_FEMALE)) {
@@ -252,10 +300,11 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
         }
         saintsListIds.remove(correctSaint.getId());
 
+        // set up text on the buttons
         for (int i = 0; i < buttons.size(); i++) {
-            ToggleButton button = buttons.get(i);
+            MaterialButton button = buttons.get(i);
             if (i == correctChoice) {
-                setNameOnButton(button, correctSaint.getName());
+                button.setText(correctSaint.getName());
                 continue;
             }
 
@@ -270,21 +319,23 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
                 name = saintIdsToNamesMale.get(aSaintId);
             }
 
-            setNameOnButton(button, name);
+            button.setText(name);
         }
 
         clearAllButtons();
     }
 
     public void onSubmitChoice(View view) {
+        // if already checked correctness of the answer, render the next question
         if (hasChecked) {
             onNext();
             return;
         }
 
-        final int userChoiceId = getCheckedButtonId();
+        final int userChoiceId = getCheckedButtonId(optionsGroup.getCheckedButtonId());
 
-        if (userChoiceId == -1) {
+        // check whether an option was selected
+        if (userChoiceId == View.NO_ID) {
             if (noAnswerToast != null) {
                 noAnswerToast.cancel();
             }
@@ -304,11 +355,11 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
                 unguessedPaintings.remove(new Painting (questionPainting.getId()));
             }
         } else {
-            buttons.get(userChoiceId).setBackgroundColor(wrongChoiceColor);
+            buttons.get(userChoiceId).setBackgroundTintList(colorStateWrong);
             wrongAnswers++;
         }
 
-        buttons.get(correctChoice).setBackgroundColor(correctChoiceColor);
+        buttons.get(correctChoice).setBackgroundTintList(colorStateCorrect);;
 
         setScore();
 
@@ -336,45 +387,40 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
 
 
     private void setUpButtons() {
-        CompoundButton.OnCheckedChangeListener onCheckedChangeListener = (button, isChecked) -> {
-            if (isChecked) {
-                clearAllButtons();
-                button.setChecked(true);
-            }
-        };
+        // TODO: add a feature with true auto next
+//        MaterialButton.OnCheckedChangeListener onCheckedChangeListener = (button, isChecked) -> {
+//            if (isChecked) {
+//                clearAllButtons();
+//                button.setChecked(true);
+//            }
+//        };
 
         buttons = new ArrayList<>(4);
 
-        setUpButton(onCheckedChangeListener, R.id.guess_button1);
-        setUpButton(onCheckedChangeListener, R.id.guess_button2);
-        setUpButton(onCheckedChangeListener, R.id.guess_button3);
-        setUpButton(onCheckedChangeListener, R.id.guess_button4);
+        setUpButton(R.id.guess_button1);
+        setUpButton(R.id.guess_button2);
+        setUpButton(R.id.guess_button3);
+        setUpButton(R.id.guess_button4);
 
     }
 
-    private void setUpButton(CompoundButton.OnCheckedChangeListener onCheckedChangeListener, int guess_button_id) {
-        ToggleButton guessButton = findViewById(guess_button_id);
-        guessButton.setOnCheckedChangeListener(onCheckedChangeListener);
+    private void setUpButton(int guess_button_id) {
+        MaterialButton guessButton = findViewById(guess_button_id);
         buttons.add(guessButton);
     }
 
-    private void setNameOnButton(ToggleButton button, String name) {
-        button.setTextOff(name);
-        button.setTextOn(name);
-        button.setText(name);
-    }
-
     private void clearAllButtons() {
-        for (ToggleButton button : buttons) {
-            button.setBackgroundResource(R.drawable.guess_button);
-            button.setChecked(false);
+        optionsGroup.clearChecked();
+        for (MaterialButton button : buttons) {
+            button.setBackgroundTintList(defaultTint);
         }
+
     }
 
-    private int getCheckedButtonId() {
+    private int getCheckedButtonId(int checkedButtonId) {
         for (int i = 0; i < buttons.size(); i++) {
-            ToggleButton button = buttons.get(i);
-            if (button.isChecked()) {
+            MaterialButton button = buttons.get(i);
+            if (button.getId() == checkedButtonId) {
                 return i;
             }
         }

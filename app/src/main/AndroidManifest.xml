@@ -19,8 +19,8 @@
             </intent-filter>
         </activity>
 
+        <!--    TODO:       return android:theme="@style/AppTheme.NoActionBar"-->
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activities.GuessSaint"
             android:parentActivityName=".activities.Main">
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/list_background"
+    android:background="@color/light_paper"
     >
 <LinearLayout
     android:id="@+id/activity_saint_info"
@@ -40,7 +40,7 @@
             android:paddingLeft="@dimen/activity_padding"
             android:paddingStart="@dimen/activity_padding"
             android:textSize="24sp"
-            android:textColor="@color/color_primary_text_dark"
+            android:textColor="@color/primaryTextColor"
         />
 
     </LinearLayout>
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:textSize="18sp"
-        android:textColor="@color/color_primary_text_dark"
+        android:textColor="@color/primaryTextColor"
         android:id="@+id/saint_attributes" />
 
     <!--Short description-->
@@ -61,12 +61,12 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:textSize="16sp"
-        android:textColor="@color/color_primary_text_dark"
+        android:textColor="@color/primaryTextColor"
         android:id="@+id/saint_description" />
 
     <!--Wiki button-->
-    <Button
-        android:id="@+id/wiki_article_button"
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/wiki_article_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -75,7 +75,6 @@
         android:layout_margin="@dimen/activity_vertical_margin"
 
         style="@style/Widget.AppCompat.Button.Colored"
-        android:theme="@style/Button"
         />
 </LinearLayout>
 </ScrollView>
