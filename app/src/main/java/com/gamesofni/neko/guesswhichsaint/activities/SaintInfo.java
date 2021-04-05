@@ -1,6 +1,7 @@
 package com.gamesofni.neko.guesswhichsaint.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,7 +52,7 @@ public class SaintInfo extends AppCompatActivity {
 
         saint_name.setText(saint.getName());
         saint_description.setText(saint.getInfo());
-        saint_icon.setImageResource(saint.getIcon());
+        saint_icon.setImageDrawable(saint.getIcon());
 
         final SpannableStringBuilder attributes = new SpannableStringBuilder(getString(R.string.saint_info_attributes_list_prefix) + TextUtils.join(", ", saint.getAttributes()));
         attributes.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

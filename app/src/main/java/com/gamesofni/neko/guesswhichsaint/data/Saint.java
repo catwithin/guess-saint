@@ -1,5 +1,7 @@
 package com.gamesofni.neko.guesswhichsaint.data;
 
+import android.graphics.drawable.Drawable;
+
 import java.util.ArrayList;
 
 
@@ -8,14 +10,16 @@ public class Saint {
     private String name;
     private ArrayList<Painting> paintings;
     private ArrayList<String> attributes;
-    private int icon;
+    private Drawable icon;
     private String info;
     private String wikiUrl;
     private Integer gender;
     private String category;
 
 
-    public Saint(long id, String name, ArrayList<Painting> paintings, ArrayList<String> attributes, int icon, String info, String wikiUrl, Integer gender, String category) {
+    public Saint(long id, String name, ArrayList<Painting> paintings,
+                 ArrayList<String> attributes, Drawable icon, String info, String wikiUrl,
+                 Integer gender, String category) {
         this.id = id;
         this.name = name;
         this.paintings = paintings;
@@ -52,7 +56,7 @@ public class Saint {
         return attributes;
     }
 
-    public int getIcon() {
+    public Drawable getIcon() {
         return icon;
     }
 

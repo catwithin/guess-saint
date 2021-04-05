@@ -5,8 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+
+import com.gamesofni.neko.guesswhichsaint.R;
 import com.gamesofni.neko.guesswhichsaint.data.Painting;
 import com.gamesofni.neko.guesswhichsaint.data.Saint;
 import java.util.ArrayList;
@@ -168,6 +175,18 @@ public class SaintsQuery {
         ArrayList<Painting> paintings = new ArrayList<>();
         paintings.add(PaintingsContract.convertPaintingFromSaintJoinedCursor(cursor, context));
 
+        Drawable drawable;
+        if (iconColumnIndex != -1) {
+            Bitmap bitmapIcon = BitmapFactory.decodeResource(context.getResources(), context.getResources().getIdentifier(cursor.getString(iconColumnIndex), "drawable",
+                    context.getPackageName()));
+            RoundedBitmapDrawable roundedIcon =
+                    RoundedBitmapDrawableFactory.create(context.getResources(), bitmapIcon);
+            roundedIcon.setCircular(true);
+
+            drawable = roundedIcon;
+        } else {
+            drawable = null;
+        }
         Saint saint = new Saint(
                 (idColumnIndex != -1) ? cursor.getLong(idColumnIndex) : -1,
                 (nameColumnIndex != -1) ? cursor.getString(nameColumnIndex) : null,
@@ -175,9 +194,7 @@ public class SaintsQuery {
                 (attributesColumnIndex != -1) ?
                         new ArrayList<>(Arrays.asList(TextUtils.split(cursor.getString(attributesColumnIndex), ","))) :
                         null,
-                (iconColumnIndex != -1) ?
-                        context.getResources().getIdentifier(cursor.getString(iconColumnIndex), "drawable", context.getPackageName()) :
-                        -1,
+                drawable,
                 (descriptionColumnIndex != -1) ? cursor.getString(descriptionColumnIndex) : null,
                 (wikiLinkColumnIndex != -1) ? cursor.getString(wikiLinkColumnIndex) : null,
                 (genderColumnIndex != -1) ? cursor.getInt(genderColumnIndex) : null,

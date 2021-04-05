@@ -26,7 +26,7 @@ public class SaintsCursorAdapter extends CursorAdapter{
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(layout.saints_list_item, parent, false);
+        return LayoutInflater.from(context).inflate(layout.list_item_redesigned, parent, false);
     }
 
     @Override
@@ -38,6 +38,6 @@ public class SaintsCursorAdapter extends CursorAdapter{
         final Saint saint = convertSaintFromCursorOnPosition(cursor, context);
         name.setText(saint.getName());
         attributes.setText(TextUtils.join(",", saint.getAttributes()));
-        icon.setImageResource(saint.getIcon());
+        icon.setImageDrawable(saint.getIcon());
     }
 }
