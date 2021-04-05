@@ -7,7 +7,7 @@
     tools:context=".activities.SaintsList"
 
     android:id="@+id/activity_list_saints"
-    android:background="@color/light_paper"
+    android:background="@color/white"
 >
 
 </ListView>
