@@ -5,12 +5,21 @@
 <!--table names-->
     <string name="saints_translation_table_name">saints_default</string>
 
-<!--main screen-->
+<!--main screen TODO: get rid of along with the old layout -->
     <string name="score_main_screen" translatable="false">%.0f%%</string>
     <string name="default_high_score_value" translatable="false">0%</string>
     <string name="high_score">best score</string>
     <string name="button_start">Start quiz</string>
     <string name="button_info">List of Saints</string>
+
+<!-- redesigned main screen   -->
+    <string name="main_screen_btn_guess_saint">Guess Saint</string>
+    <string name="main_screen_btn_list_of_saints">List of Saints</string>
+    <string name="main_screen_btn_unlocked_paintings">Unlocked Paintings</string>
+    <string name="main_screen_pic_desc">Saint Andrew sitting at a table, with his head on the
+        hand is reading a book, on the background there\'s a mountain going up and an opening
+        with a view to the distance can be seen.
+    </string>
 
 
 <!--menu items -->

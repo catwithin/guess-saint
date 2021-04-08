@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  main screen redesigned  -->
+    <dimen name="main_screen_button_height">60dp</dimen>
+    <dimen name="main_screen_icon_big">40dp</dimen>
+    <dimen name="main_screen_btn_margin">24dp</dimen>
+</resources>

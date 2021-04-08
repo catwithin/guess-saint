@@ -23,7 +23,7 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main_redesigned);
+        setContentView(R.layout.activity_main);
 
         Button guessActivityCard = findViewById(R.id.mainScreenGuessActivityButton);
         guessActivityCard.setOnClickListener(
@@ -44,7 +44,7 @@ public class Main extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         float savedScore = sharedPreferences.getFloat("score", 0.0f);
         TextView scoreValue = findViewById(R.id.mainScreenGuessSaintsScoreValue);
-        scoreValue.setText(String.format(getString(R.string.score_main_screen), savedScore));
+//        scoreValue.setText(String.format(getString(R.string.score_main_screen), savedScore));
     }
 
     @Override

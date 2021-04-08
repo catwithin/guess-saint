@@ -27,6 +27,15 @@
   <color name="light_paper">#ffffe2</color>
 
   <color name="white">#ffffff</color>
+  <color name="black">#000000</color>
+  <color name="andrew_black">#2A1E24</color>
+  <color name="gold">#B67300</color>
+  <color name="greyish">#f1f1f1</color>
+
+  <color name="red_500">#F44336</color>
+  <color name="red_700">#D32F2F</color>
+  <color name="black_500">#000000</color>
+  <color name="transparent">#34000000</color>
 
 </resources>
 

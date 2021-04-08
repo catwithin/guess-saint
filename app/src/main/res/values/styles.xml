@@ -1,32 +1,52 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/beige_500</item>
-        <item name="colorPrimaryDark">@color/beige_700</item>
+        <item name="colorPrimary">@color/bordo_accent</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/bordo_accent_dark</item>
         <item name="colorPrimaryVariant">@color/beige_200</item>
-        <item name="colorSecondary">@color/bordo_accent</item>
-        <item name="colorAccent">@color/bordo_accent</item>
+        <item name="colorSecondary">@color/beige_500</item>
+        <item name="colorAccent">@color/beige_500</item>
+        <item name="colorOnSecondary">@color/black_500</item>
         <item name="colorSurface">@color/yellow_50</item>
-        <item name="colorOnSurface">@color/bordo_accent</item>
+        <item name="colorOnSurface">@color/black</item>
 
     </style>
 
+<!--  Buttons on the Guess screen  -->
     <style name="GuessButton" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/guess_button</item>
         <item name="elevation">8dp</item>
+        <item name="android:textColor">@color/button_text_color</item>
     </style>
 
-    <style name="round_button" parent="ShapeAppearance.MaterialComponents.MediumComponent">
-        <item name="cornerSize">8dp</item>
+    <style name="round_button" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="cornerSize">16dp</item>
+    </style>
+
+<!--  Transparent app bar for the Main and Guess screens  -->
+    <style name="TransparentBarTheme" parent="AppTheme">
+        <item name="actionBarStyle">@style/MyTheme.ActionBar</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+    <style name="MyTheme.ActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="elevation" tools:targetApi="lollipop">0dp</item>
+        <item name="background">@color/transparent</item>
     </style>
 
 </resources>
 
+<!--<style name="CutCorner" parent="ShapeAppearance.MaterialComponents.MediumComponent">-->
+<!--    <item name="cornerFamily">cut</item>-->
+<!--    <item name="cornerSize">12dp</item>-->
+<!--</style>-->
+
     <!--<style name="choiceButton">-->
     <!--&lt;!&ndash;<item name="android:background">#FF6F00</item>&ndash;&gt;-->
     <!--<item name="android:background">#FFC107</item>-->
+    <!--        <item name="shapeAppearance">@style/CutCorner</item>-->
     <!--</style>-->
 
 <!--<style name="AppTheme.NoActionBar">-->
@@ -34,4 +54,5 @@
 <!--<item name="windowNoTitle">true</item>-->
 <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
 <!--<item name="preferenceTheme">@style/PreferenceThemeOverlay</item>-->
+<!--        <item name="android:windowTranslucentNavigation">true</item>-->
 <!--</style>-->

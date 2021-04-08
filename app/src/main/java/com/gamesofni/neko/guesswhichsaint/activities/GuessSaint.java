@@ -376,6 +376,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
             onNext();
         } else {
             hasChecked = true;
+            optionsGroup.clearChecked();
         }
 
     }

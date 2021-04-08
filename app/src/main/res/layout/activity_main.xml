@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+<!--  background pic  -->
+    <ImageView
+        android:src="@drawable/main_bg"
+        android:contentDescription="@string/main_screen_pic_desc"
+
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+
+        android:background="@color/transparent"
+        android:elevation="1dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+    />
+
+<!--  "Card" with buttons  -->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <!--   Scrim for the buttons     -->
+
+        <View
+            android:id="@+id/view"
+
+            android:background="@drawable/scrim"
+            android:elevation="1dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guidelinePicDivider"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+        />
+
+        <!--   Play button     -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mainScreenGuessActivityButton"
+
+            app:iconSize="@dimen/main_screen_icon_big"
+
+            app:icon="@drawable/ic_search_white_96dp"
+            app:cornerRadius="16dp"
+            android:textAlignment="textStart"
+
+            app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toTopOf="@+id/view"
+
+            android:layout_marginTop="16dp"
+
+            android:layout_width="0dp"
+            android:layout_height="@dimen/main_screen_button_height"
+
+            android:text="@string/main_screen_btn_guess_saint"
+
+        />
+
+        <!--   Two bottom buttons     -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mainScreenSaintsListActivity"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+
+            app:icon="@drawable/baseline_people_24"
+            app:iconGravity="end"
+            app:iconSize="@dimen/main_screen_button_height"
+            android:textAlignment="textEnd"
+
+            app:layout_constraintVertical_chainStyle="packed"
+
+            app:layout_constraintBottom_toTopOf="@+id/paintings"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/mainScreenGuessActivityButton"
+
+            android:elevation="1dp"
+            android:layout_marginTop="@dimen/main_screen_btn_margin"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:text="@string/main_screen_btn_list_of_saints"
+        />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/paintings"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+
+            app:icon="@android:drawable/ic_menu_gallery"
+            app:iconSize="@dimen/main_screen_button_height"
+            android:textAlignment="textStart"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/mainScreenSaintsListActivity"
+
+            android:elevation="1dp"
+            android:layout_marginBottom="16dp"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            android:text="@string/main_screen_btn_unlocked_paintings"
+        />
+
+        <!--    Guidelines    -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelinePicDivider"
+
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.6"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+        />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineStart"
+
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineEnd"
+
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="20dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
