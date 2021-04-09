@@ -4,9 +4,11 @@ package com.gamesofni.neko.guesswhichsaint.activities;
 import android.app.DialogFragment;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +33,7 @@ import com.gamesofni.neko.guesswhichsaint.db.SaintsQuery;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static com.gamesofni.neko.guesswhichsaint.db.SaintsContract.CATEGORY_MAGI;
 import static com.gamesofni.neko.guesswhichsaint.db.SaintsQuery.CATEGORY_MAGI_KEY;
@@ -86,6 +89,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
     private static final String TINT = "tint";
 
     public static final int MIN_GUESSES_FOR_SCORE_UPDATE = 5;
+    private FloatingActionButton guessActivityCheckButton;
 
 
     @Override
@@ -145,10 +149,10 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
 
 
         // set up quiz view
-        setContentView(R.layout.activity_guess);
+        setContentView(R.layout.activity_guess_redesigned);
 
         pictureView = findViewById(R.id.guessMergeImageView);
-        scoreView = findViewById(R.id.guess_menu_score);
+//        scoreView = findViewById(R.id.guess_menu_score);
         optionsGroup = findViewById(R.id.optionsGroup);
 
         setUpColors();
@@ -161,11 +165,11 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
             defaultTint = buttons.get(0).getBackgroundTintList();
         }
 
-        Button guessActivityCheckButton = findViewById(R.id.guess_menu_next);
+        guessActivityCheckButton = findViewById(R.id.guess_menu_next);
         guessActivityCheckButton.setOnClickListener(this::onSubmitChoice);
 
-        final Button guessActivityBackButton = findViewById(R.id.guess_menu_back);
-        guessActivityBackButton.setOnClickListener(view -> GuessSaint.this.onBackPressed());
+//        final Button guessActivityBackButton = findViewById(R.id.guess_menu_back);
+//        guessActivityBackButton.setOnClickListener(view -> GuessSaint.this.onBackPressed());
 
     }
 
@@ -328,6 +332,12 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
     public void onSubmitChoice(View view) {
         // if already checked correctness of the answer, render the next question
         if (hasChecked) {
+            guessActivityCheckButton.setImageDrawable(ResourcesCompat
+                    .getDrawable(getResources() ,getResources()
+                                    .getIdentifier("baseline_check_24", "drawable",
+                                            getPackageName())
+                            , getTheme()));
+
             onNext();
             return;
         }
@@ -345,6 +355,12 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
 
             return;
         }
+
+        guessActivityCheckButton.setImageDrawable(ResourcesCompat
+                .getDrawable(getResources() ,getResources()
+                        .getIdentifier("baseline_arrow_forward_24", "drawable", getPackageName())
+                        , getTheme()));
+
         final boolean isCorrectAnswer = userChoiceId == correctChoice;
 
         PaintingsQuery.updateCorrectAnswersCount(this, questionPainting.getId(), isCorrectAnswer);
@@ -430,7 +446,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
 
     private void setScore() {
         final float score = getScore();
-        scoreView.setText(String.format(getString(R.string.score_message), score));
+//        scoreView.setText(String.format(getString(R.string.score_message), score));
     }
 
     private float getScore() {

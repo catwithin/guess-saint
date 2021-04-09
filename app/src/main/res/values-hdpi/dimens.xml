@@ -4,5 +4,8 @@
     <!--  main screen redesigned  -->
     <dimen name="main_screen_button_height">60dp</dimen>
     <dimen name="main_screen_icon_big">40dp</dimen>
+    <dimen name="main_screen_icon_normal">30dp</dimen>
     <dimen name="main_screen_btn_margin">24dp</dimen>
+    <dimen name="main_screen_btn_margin_side">24dp</dimen>
+    <dimen name="guess_btns_margin">24dp</dimen>
 </resources>
