@@ -12,7 +12,6 @@
 
         <activity
             android:name=".activities.Main"
-            android:label=""
             android:launchMode="singleTop"
             android:theme="@style/TransparentBarTheme"
         >

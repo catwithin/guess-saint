@@ -13,7 +13,7 @@
     <string name="button_info">List of Saints</string>
 
 <!-- redesigned main screen   -->
-    <string name="main_screen_btn_guess_saint">Guess Saint</string>
+    <string name="main_screen_btn_guess_saint">Play</string>
     <string name="main_screen_btn_list_of_saints">List of Saints</string>
     <string name="main_screen_btn_unlocked_paintings">Unlocked Paintings</string>
     <string name="main_screen_pic_desc">Saint Andrew sitting at a table, with his head on the

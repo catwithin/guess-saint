@@ -8,4 +8,6 @@
     <dimen name="main_screen_btn_margin">24dp</dimen>
     <dimen name="main_screen_btn_margin_side">24dp</dimen>
     <dimen name="guess_btns_margin">24dp</dimen>
+    <dimen name="main_card_margins">40dp</dimen>
+    <dimen name="main_btn_border_width">2dp</dimen>
 </resources>
