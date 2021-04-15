@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+            android:id="@+id/empty_shelter_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:scaleType="centerInside"
+            android:src="@drawable/saint_francis_empty"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+            android:text="You haven't unlocked any painting yet."
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/noUnlockedPaintingText"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/empty_paintings_list"
+            app:layout_constraintTop_toBottomOf="@+id/empty_shelter_image" />
+
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/guessActivityButton"
+
+            app:iconSize="@dimen/main_screen_icon_big"
+
+            app:icon="@drawable/ic_search_white_96dp"
+            app:cornerRadius="16dp"
+            android:textAlignment="textStart"
+
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/main_screen_button_height"
+
+            android:text="@string/main_screen_btn_guess_saint"
+
+            app:layout_constraintTop_toBottomOf="@+id/noUnlockedPaintingText"
+            android:layout_marginTop="@dimen/empty_paintings_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+</androidx.constraintlayout.widget.ConstraintLayout>

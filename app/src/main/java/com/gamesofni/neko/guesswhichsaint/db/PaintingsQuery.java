@@ -190,5 +190,26 @@ public class PaintingsQuery {
         }
     }
 
+    // methods for cursor adapter for list of unlocked paintings
+    public static Cursor getAllUnlockedPaintings(Context context, SQLiteDatabase db) {
+        // return paintings for quiz which were guessed correctly less than 2 times in a row
+        String[] projection = {
+                PaintingsContract.PaintingsEntry._ID,
+                PaintingsContract.PaintingsEntry.FILE_NAME,
+                PaintingsContract.PaintingsEntry.NAME,
+        };
+
+        final String selection = PaintingsContract.PaintingsEntry.COUNT + " >= ?";
+        final String[] selectionArgs = {String.valueOf(CORRECT_COUNT_THRESHOLD)};
+
+        Cursor cursor = db.query(
+                PaintingsContract.PaintingsEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null, null, null
+        );
+        return cursor;
+    }
 
 }

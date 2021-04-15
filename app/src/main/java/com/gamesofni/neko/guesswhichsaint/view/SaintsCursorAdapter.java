@@ -20,6 +20,7 @@ import static com.gamesofni.neko.guesswhichsaint.db.SaintsQuery.convertSaintFrom
 public class SaintsCursorAdapter extends CursorAdapter{
 // TODO: when coming bk from list item info view the list is on top, better would be on same position - only for our button, hardware back works great
     // TODO: deprecated, "As an alternative, use android.app.LoaderManager with a android.content.CursorLoader"
+    // TODO: also in paintings list
     public SaintsCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }

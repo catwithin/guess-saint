@@ -50,4 +50,15 @@ public class PaintingsContract {
         }
     }
 
+    public static Painting unlockedPaintingFromCursor(Cursor cursor, Context context) {
+        final int idColumnIndex = cursor.getColumnIndex(PaintingsEntry._ID);
+        final int paintingFileNameColumnIndex = cursor.getColumnIndex(PaintingsEntry.FILE_NAME);
+        final int nameColumnIndex = cursor.getColumnIndex(PaintingsEntry.NAME);
+        final String paintingFileName = cursor.getString(paintingFileNameColumnIndex);
+        final Integer fileIdentifier = context.getResources().getIdentifier(paintingFileName , "drawable", context.getPackageName());
+        final String name = cursor.getString(nameColumnIndex);
+        final Long id = cursor.getLong(idColumnIndex);
+
+        return new Painting(id, name, fileIdentifier);
+    }
 }

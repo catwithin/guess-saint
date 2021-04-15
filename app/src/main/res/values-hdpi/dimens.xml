@@ -10,4 +10,5 @@
     <dimen name="guess_btns_margin">24dp</dimen>
     <dimen name="main_card_margins">40dp</dimen>
     <dimen name="main_btn_border_width">2dp</dimen>
+    <dimen name="empty_paintings_list">96dp</dimen>
 </resources>

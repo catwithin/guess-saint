@@ -10,6 +10,7 @@
     <dimen name="guess_btns_margin">8dp</dimen>
     <dimen name="main_card_margins">12dp</dimen>
     <dimen name="main_btn_z_transl">3dp</dimen>
+    <dimen name="empty_paintings_list">10dp</dimen>
 
     <item name="main_guideline_pic" format="float" type="dimen">0.5</item>
 </resources>

@@ -35,6 +35,10 @@ public class Main extends AppCompatActivity {
                 view -> startActivity(new Intent(Main.this, SaintsList.class))
         );
 
+        Button unlockedDrawingsActivity = findViewById(R.id.paintings);
+        unlockedDrawingsActivity.setOnClickListener(
+                view -> startActivity(new Intent(Main.this, UnlockedDrawingsList.class))
+        );
     }
 
     @Override
