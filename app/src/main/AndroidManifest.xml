@@ -52,7 +52,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.Main" />
         </activity>
+
+
         <activity
+            android:theme="@style/NoActionBar"
             android:name=".activities.SaintInfo"
             android:label="@string/info_screen_header"
             android:parentActivityName=".activities.SaintsList">

@@ -14,8 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gamesofni.neko.guesswhichsaint.R;
+import com.gamesofni.neko.guesswhichsaint.data.Painting;
 import com.gamesofni.neko.guesswhichsaint.data.Saint;
+import com.gamesofni.neko.guesswhichsaint.db.PaintingsQuery;
 import com.gamesofni.neko.guesswhichsaint.db.SaintsQuery;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static com.gamesofni.neko.guesswhichsaint.utils.Utils.checkSupportedAction;
 import static com.gamesofni.neko.guesswhichsaint.utils.Utils.showClientsMsg;
@@ -27,7 +31,7 @@ public class SaintInfo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_saint_info);
+        setContentView(R.layout.activity_saint_detail_redesigned);
 
         Intent intentThatStartedThisActivity = getIntent();
         if (!intentThatStartedThisActivity.hasExtra(Intent.EXTRA_UID)) {
@@ -43,8 +47,10 @@ public class SaintInfo extends AppCompatActivity {
         TextView saint_description = findViewById(R.id.saint_description);
         TextView saint_attributes = findViewById(R.id.saint_attributes);
         ImageView saint_icon = findViewById(R.id.info_saint_icon);
+        CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar_layout);
 
         Saint saint = SaintsQuery.getSaint(this, saintId);
+        Painting painting = PaintingsQuery.getPaintingForSaint(this, saint.getId());
 
         if (saint == null) {
             return;
@@ -52,14 +58,15 @@ public class SaintInfo extends AppCompatActivity {
 
         saint_name.setText(saint.getName());
         saint_description.setText(saint.getInfo());
-        saint_icon.setImageDrawable(saint.getIcon());
+        saint_icon.setImageResource(painting.getResourceName());
+        collapsingToolbar.setTitle(saint.getName());
 
         final SpannableStringBuilder attributes = new SpannableStringBuilder(getString(R.string.saint_info_attributes_list_prefix) + TextUtils.join(", ", saint.getAttributes()));
         attributes.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, 11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         saint_attributes.setText(attributes);
 
         final String wikiUrl = saint.getWikiUrl();
-        Button wikiButton = findViewById(R.id.wiki_article_button);
+        FloatingActionButton wikiButton = findViewById(R.id.wiki_article_button);
         wikiButton.setOnClickListener(v -> openBrowserLink(v, wikiUrl));
 
     }

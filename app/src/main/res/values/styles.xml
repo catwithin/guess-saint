@@ -37,6 +37,16 @@
         <item name="background">@color/transparent</item>
     </style>
 
+    <style name="NoActionBar" parent="AppTheme">
+        <item name="actionBarStyle">@style/NoActionBar</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="CollapsedTitle"
+            parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textColor">@color/transparent</item>
+        <item name="android:textSize">0.1sp</item>
+    </style>
 </resources>
 
 <!--<style name="CutCorner" parent="ShapeAppearance.MaterialComponents.MediumComponent">-->
