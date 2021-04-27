@@ -82,5 +82,8 @@
     <string name="unsupported_action_name_browser">browser</string>
 
     <string name="reset_db_done">Done!</string>
+    <string name="dialog_unlocked_painting">You have unlocked a new painting!</string>
+    <string name="dialog_cancel">see later</string>
+    <string name="dialog_show">show now</string>
 
 </resources>

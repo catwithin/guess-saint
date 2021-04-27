@@ -26,11 +26,12 @@ public class Painting implements Serializable {
         this.resourceName = resourceName;
     }
 
-    public Painting(Long id, Integer resourceName, Integer correctCount, long saintId) {
+    public Painting(Long id, Integer resourceName, String paintingName, Integer correctCount, long saintId) {
         this.id = id;
         this.resourceName = resourceName;
         this.correctCount = correctCount;
         this.saintId = saintId;
+        this.name = paintingName;
     }
 
     public Painting(long id) {

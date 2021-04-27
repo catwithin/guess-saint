@@ -33,10 +33,12 @@ public class PaintingsContract {
     private static Painting convertPaintingFromCursor(Cursor cursor, Context context, String idColumnName) {
         final int paintingFileNameColumnIndex = cursor.getColumnIndex(PaintingsEntry.FILE_NAME);
         final int paintingCountColumnIndex = cursor.getColumnIndex(PaintingsEntry.COUNT);
+        final int paintingNameColumnIndex = cursor.getColumnIndex(PaintingsEntry.NAME);
         if (paintingFileNameColumnIndex == -1 || paintingCountColumnIndex == -1) {
             return null;
         }
         final String paintingFileName = cursor.getString(paintingFileNameColumnIndex);
+        final String paintingName = cursor.getString(paintingNameColumnIndex);
         final Integer fileIdentifier = context.getResources().getIdentifier(paintingFileName , "drawable", context.getPackageName());
         final Integer correctCount = cursor.getInt(paintingCountColumnIndex);
         final Long id = cursor.getLong(cursor.getColumnIndex(idColumnName));
@@ -46,7 +48,7 @@ public class PaintingsContract {
             return new Painting(id, fileIdentifier, correctCount);
         } else {
             final long saintId = cursor.getLong(saintIdColumnIndex);
-            return new Painting(id, fileIdentifier, correctCount, saintId);
+            return new Painting(id, fileIdentifier, paintingName, correctCount, saintId);
         }
     }
 

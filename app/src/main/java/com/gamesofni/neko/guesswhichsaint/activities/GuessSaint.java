@@ -1,20 +1,21 @@
 package com.gamesofni.neko.guesswhichsaint.activities;
 
 
-import android.app.DialogFragment;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.gamesofni.neko.guesswhichsaint.R;
 import com.gamesofni.neko.guesswhichsaint.data.Painting;
@@ -22,7 +23,6 @@ import com.gamesofni.neko.guesswhichsaint.data.Saint;
 import com.gamesofni.neko.guesswhichsaint.db.PaintingsQuery;
 import com.gamesofni.neko.guesswhichsaint.db.SaintsContract;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,7 +41,7 @@ import static com.gamesofni.neko.guesswhichsaint.db.SaintsQuery.FEMALE_KEY;
 import static com.gamesofni.neko.guesswhichsaint.db.SaintsQuery.MALE_KEY;
 
 
-public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragment.ResetDbDialogListener {
+public class GuessSaint extends FragmentActivity implements ResetDbDialogFragment.ResetDbDialogListener {
 
     private static final String USER_CHOICE = "userChoice";
     public static final String CORRECT_SAINT_NAME = "correctSaintName";
@@ -140,7 +140,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
             resetPaintingsScore.setOnClickListener(
                     view -> {
                         DialogFragment resetConfirmationDialog = new ResetDbDialogFragment();
-                        resetConfirmationDialog.show(GuessSaint.this.getFragmentManager(), TAG);
+                        resetConfirmationDialog.show(GuessSaint.this.getSupportFragmentManager(), TAG);
                     }
             );
 
@@ -368,6 +368,7 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
         if (isCorrectAnswer) {
             correctAnswers++;
             if (PaintingsQuery.isCountOverTreshold(this.getApplicationContext(), questionPainting.getId())) {
+                showPaintingUnlockedMessage(questionPainting);
                 unguessedPaintings.remove(new Painting (questionPainting.getId()));
             }
         } else {
@@ -395,6 +396,13 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
             optionsGroup.clearChecked();
         }
 
+    }
+
+    private void showPaintingUnlockedMessage(Painting questionPainting) {
+        DialogFragment newFragment = UnlockedPaintingMessageFragment
+            .newInstance(questionPainting.getName(), questionPainting.getResourceName());
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        newFragment.show(supportFragmentManager, UnlockedPaintingMessageFragment.TAG);
     }
 
     public void onNext() {
@@ -464,4 +472,8 @@ public class GuessSaint extends AppCompatActivity implements ResetDbDialogFragme
         Toast.makeText(this, R.string.reset_db_done, Toast.LENGTH_SHORT).show();
     }
 
+
+
+
 }
+

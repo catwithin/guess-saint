@@ -70,7 +70,7 @@ public class PaintingsQuery {
     public static ArrayList<Painting> getAllUnguessedPaintings(Context context) {
         ArrayList<Painting> unguessedPaintings = new ArrayList<>();
 
-        Cursor cursor =  queryAllPaintingsWithLowScore(context);
+        Cursor cursor = queryAllPaintingsWithLowScore(context);
         try {
             while (cursor.moveToNext()) {
                 unguessedPaintings.add(PaintingsContract.convertPaintingFromPaintingCursor(cursor, context));
@@ -94,6 +94,7 @@ public class PaintingsQuery {
         String[] projection = {
                 PaintingsContract.PaintingsEntry._ID,
                 PaintingsContract.PaintingsEntry.FILE_NAME,
+                PaintingsContract.PaintingsEntry.NAME,
                 PaintingsContract.PaintingsEntry.SAINT_ID,
                 PaintingsContract.PaintingsEntry.COUNT
         };
@@ -145,6 +146,7 @@ public class PaintingsQuery {
         String[] projection = {
                 PaintingsContract.PaintingsEntry._ID,
                 PaintingsContract.PaintingsEntry.FILE_NAME,
+                PaintingsContract.PaintingsEntry.NAME,
                 PaintingsContract.PaintingsEntry.SAINT_ID,
                 PaintingsContract.PaintingsEntry.COUNT
         };
