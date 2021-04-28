@@ -61,7 +61,7 @@ public class UnlockedDrawingsList extends AppCompatActivity {
     }
 
     private void onCursorItemListCLick(long paintingId) {
-        Intent intent = new Intent(UnlockedDrawingsList.this, SaintInfo.class);
+        Intent intent = new Intent(UnlockedDrawingsList.this, DrawingInfo.class);
         intent.putExtra(Intent.EXTRA_UID, paintingId);
         startActivity(intent);
     }

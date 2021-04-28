@@ -1,6 +1,7 @@
 package com.gamesofni.neko.guesswhichsaint.activities;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Build;
@@ -472,7 +473,11 @@ public class GuessSaint extends FragmentActivity implements ResetDbDialogFragmen
         Toast.makeText(this, R.string.reset_db_done, Toast.LENGTH_SHORT).show();
     }
 
-
+    public void showNowClick() {
+        Intent intent = new Intent(this, DrawingInfo.class);
+        intent.putExtra(Intent.EXTRA_UID, questionPainting.getId());
+        startActivity(intent);
+    }
 
 
 }

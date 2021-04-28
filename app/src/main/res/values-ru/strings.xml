@@ -47,7 +47,6 @@
 
 
 <!--saint info screen-->
-    <string name="info_screen_header">Краткая информация</string>
     <string name="saint_info_attributes_list_prefix">Атрибуты:\u0020</string>
     <string name="view_wiki">открыть википедию</string>
 

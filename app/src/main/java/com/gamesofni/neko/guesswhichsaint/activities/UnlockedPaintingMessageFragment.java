@@ -5,15 +5,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import com.gamesofni.neko.guesswhichsaint.R;
 
@@ -78,10 +74,8 @@ public class UnlockedPaintingMessageFragment extends DialogFragment {
 
         builder
             .setView(view)
-            .setPositiveButton(R.string.dialog_show, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // FIRE ZE MISSILES!
-                }
+            .setPositiveButton(R.string.dialog_show, (dialog, id) -> {
+                ((GuessSaint)getActivity()).showNowClick();
             })
             .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {

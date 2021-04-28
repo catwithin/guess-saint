@@ -54,7 +54,6 @@
 
     
 <!--saint info screen-->
-    <string name="info_screen_header">Short information</string>
     <string name="saint_info_attributes_list_prefix">Attributes:\u0020</string>
     <string name="view_wiki">read wikipedia article</string>
 

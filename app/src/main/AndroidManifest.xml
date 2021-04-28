@@ -67,13 +67,24 @@
         <activity
             android:theme="@style/NoActionBar"
             android:name=".activities.SaintInfo"
-            android:label="@string/info_screen_header"
             android:parentActivityName=".activities.SaintsList">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.SaintsList"/>
         </activity>
+
+        <activity
+            android:theme="@style/TransparentBarTheme"
+            android:label=""
+            android:name=".activities.DrawingInfo"
+            android:parentActivityName=".activities.UnlockedDrawingsList">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.UnlockedDrawingsList"/>
+        </activity>
+
     </application>
 
 </manifest>

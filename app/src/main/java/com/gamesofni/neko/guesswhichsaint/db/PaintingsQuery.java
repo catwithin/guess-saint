@@ -142,7 +142,7 @@ public class PaintingsQuery {
         }
     }
 
-    private static Painting getPainting(Context context, long id) {
+    public static Painting getPainting(Context context, long id) {
         String[] projection = {
                 PaintingsContract.PaintingsEntry._ID,
                 PaintingsContract.PaintingsEntry.FILE_NAME,
