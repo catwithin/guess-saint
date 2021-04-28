@@ -26,6 +26,13 @@ public class PaintingsQuery {
 
     private static final int CORRECT_COUNT_THRESHOLD = 2;
     private static final String TAG = PaintingsQuery.class.getSimpleName();
+    public static final String[] FULL_PAINTING_PROJECTION = new String[]{
+        PaintingsContract.PaintingsEntry._ID,
+        PaintingsContract.PaintingsEntry.FILE_NAME,
+        PaintingsContract.PaintingsEntry.NAME,
+        PaintingsContract.PaintingsEntry.SAINT_ID,
+        PaintingsContract.PaintingsEntry.COUNT
+    };
 
     public static void updateCorrectAnswersCount(Context context, long id, boolean isCorrectAnswer) {
 
@@ -91,20 +98,12 @@ public class PaintingsQuery {
 
     private static Cursor queryAllPaintingsWithLowScore(Context context) {
         // return paintings for quiz which were guessed correctly less than 2 times in a row
-        String[] projection = {
-                PaintingsContract.PaintingsEntry._ID,
-                PaintingsContract.PaintingsEntry.FILE_NAME,
-                PaintingsContract.PaintingsEntry.NAME,
-                PaintingsContract.PaintingsEntry.SAINT_ID,
-                PaintingsContract.PaintingsEntry.COUNT
-        };
-
         final String selection = PaintingsContract.PaintingsEntry.COUNT + " < ?";
         final String[] selectionArgs = {String.valueOf(CORRECT_COUNT_THRESHOLD)};
 
         return DbAccess.getDbAccess(context).getDatabase().query(
                 PaintingsContract.PaintingsEntry.TABLE_NAME,
-                projection,
+                FULL_PAINTING_PROJECTION,
                 selection,
                 selectionArgs,
                 null, null, null
@@ -112,19 +111,13 @@ public class PaintingsQuery {
     }
 
     public static Painting getPaintingForSaint(Context context, long id) {
-        String[] projection = {
-                PaintingsContract.PaintingsEntry._ID,
-                PaintingsContract.PaintingsEntry.FILE_NAME,
-                PaintingsContract.PaintingsEntry.SAINT_ID,
-                PaintingsContract.PaintingsEntry.COUNT
-        };
 
         final String selection = PaintingsContract.PaintingsEntry.SAINT_ID + " = ?";
         final String[] selectionArgs = {String.valueOf(id)};
 
         Cursor cursor = DbAccess.getDbAccess(context).getDatabase().query(
                 PaintingsContract.PaintingsEntry.TABLE_NAME,
-                projection,
+                FULL_PAINTING_PROJECTION,
                 selection,
                 selectionArgs,
                 null, null, null
@@ -143,20 +136,12 @@ public class PaintingsQuery {
     }
 
     public static Painting getPainting(Context context, long id) {
-        String[] projection = {
-                PaintingsContract.PaintingsEntry._ID,
-                PaintingsContract.PaintingsEntry.FILE_NAME,
-                PaintingsContract.PaintingsEntry.NAME,
-                PaintingsContract.PaintingsEntry.SAINT_ID,
-                PaintingsContract.PaintingsEntry.COUNT
-        };
-
         final String selection = PaintingsContract.PaintingsEntry._ID + " = ?";
         final String[] selectionArgs = {String.valueOf(id)};
 
         Cursor cursor = DbAccess.getDbAccess(context).getDatabase().query(
                 PaintingsContract.PaintingsEntry.TABLE_NAME,
-                projection,
+                FULL_PAINTING_PROJECTION,
                 selection,
                 selectionArgs,
                 null, null, null
