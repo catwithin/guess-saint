@@ -78,7 +78,6 @@ public class UnlockedPaintingMessageFragment extends DialogFragment {
 
         builder
             .setView(view)
-            .setTitle(R.string.dialog_unlocked_painting)
             .setPositiveButton(R.string.dialog_show, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     // FIRE ZE MISSILES!
