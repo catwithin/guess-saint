@@ -18,14 +18,18 @@ public class UnlockedPaintingMessageFragment extends DialogFragment {
     private TextView name;
     private ImageView pictureView;
 
+    private long paintingId;
+
     public UnlockedPaintingMessageFragment() {}; //required, not to be used
 
     public static UnlockedPaintingMessageFragment newInstance(String paintingName,
-                                                              Integer resourceId) {
+                                                              Integer resourceId,
+                                                              long id) {
         UnlockedPaintingMessageFragment f = new UnlockedPaintingMessageFragment();
         Bundle args = new Bundle();
         args.putString("painting", paintingName);
         args.putInt("resourceId", resourceId);
+        args.putLong("id", id);
         f.setArguments(args);
         return f;
     }
@@ -72,10 +76,12 @@ public class UnlockedPaintingMessageFragment extends DialogFragment {
         Integer paintingresourceId = getArguments().getInt("resourceId", -1);
         pictureView.setImageResource(paintingresourceId);
 
+        long paintingId = getArguments().getLong("id", 0);
+
         builder
             .setView(view)
             .setPositiveButton(R.string.dialog_show, (dialog, id) -> {
-                ((GuessSaint)getActivity()).showNowClick();
+                ((GuessSaint)getActivity()).showNowClick(paintingId);
             })
             .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {

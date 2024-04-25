@@ -363,7 +363,7 @@ public class GuessSaint extends FragmentActivity implements ResetDbDialogFragmen
                         , getTheme()));
 
         final boolean isCorrectAnswer = userChoiceId == correctChoice;
-
+//        showPaintingUnlockedMessage(questionPainting);
         PaintingsQuery.updateCorrectAnswersCount(this, questionPainting.getId(), isCorrectAnswer);
 
         if (isCorrectAnswer) {
@@ -379,7 +379,7 @@ public class GuessSaint extends FragmentActivity implements ResetDbDialogFragmen
 
         buttons.get(correctChoice).setBackgroundTintList(colorStateCorrect);;
 
-        setScore();
+//        setScore();
 
         if (autoNext) {
             if (correctAnswerToast != null) {
@@ -401,7 +401,11 @@ public class GuessSaint extends FragmentActivity implements ResetDbDialogFragmen
 
     private void showPaintingUnlockedMessage(Painting questionPainting) {
         DialogFragment newFragment = UnlockedPaintingMessageFragment
-            .newInstance(questionPainting.getName(), questionPainting.getResourceName());
+            .newInstance(questionPainting.getName(),
+                questionPainting.getResourceName(),
+                questionPainting.getId()
+            );
+
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         newFragment.show(supportFragmentManager, UnlockedPaintingMessageFragment.TAG);
     }
@@ -473,9 +477,9 @@ public class GuessSaint extends FragmentActivity implements ResetDbDialogFragmen
         Toast.makeText(this, R.string.reset_db_done, Toast.LENGTH_SHORT).show();
     }
 
-    public void showNowClick() {
+    public void showNowClick(long id) {
         Intent intent = new Intent(this, DrawingInfo.class);
-        intent.putExtra(Intent.EXTRA_UID, questionPainting.getId());
+        intent.putExtra(Intent.EXTRA_UID, id);
         startActivity(intent);
     }
 
