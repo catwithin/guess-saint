@@ -13,13 +13,13 @@
         app:iconSpaceReserved="false"
         android:title="@string/settings_auto_next" />
 
-    <Preference
-        android:key="settings_reset_db"
-        android:title="@string/settings_reset_option_title"
-        android:summary="@string/settings_reset_option_summary"
-        app:iconSpaceReserved="false"
-        >
+<!--    <Preference-->
+<!--        android:key="settings_reset_db"-->
+<!--        android:title="@string/settings_reset_option_title"-->
+<!--        android:summary="@string/settings_reset_option_summary"-->
+<!--        app:iconSpaceReserved="false"-->
+<!--        >-->
 
-    </Preference>
+<!--    </Preference>-->
 
 </PreferenceScreen>
