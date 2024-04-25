@@ -9,7 +9,7 @@
             android:id="@+id/list_saint_icon"
             app:srcCompat="@drawable/agatha"
             android:layout_marginTop="8dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="@dimen/list_margin_start"
             android:layout_height="@dimen/min_height_list_item"
             android:layout_width="@dimen/min_height_list_item"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/guideline3"
-            app:layout_constraintGuide_end="16dp"
+            app:layout_constraintGuide_end="@dimen/list_margin_end"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent" />
 

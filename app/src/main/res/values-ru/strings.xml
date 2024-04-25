@@ -10,7 +10,7 @@
     <string name="button_info">Список святых</string>
 
 <!--  main screen redesigned  -->
-    <string name="main_screen_btn_guess_saint">Guess Saint</string>
+    <string name="main_screen_btn_guess_saint">начать</string>
     <string name="main_screen_btn_list_of_saints">Список святых</string>
     <string name="main_screen_btn_unlocked_paintings">Угаданные картины</string>
     <string name="main_screen_pic_desc">Saint Andrew putting his head on the hand is reading a book, on the background there\'s a stone of the mountain going up and a round opening.</string>
@@ -74,5 +74,8 @@
     <string name="unsupported_action_name_browser">\u0020браузер</string>
 
     <string name="reset_db_done">Данные стерты!</string>
+    <string name="dialog_unlocked_painting">Вы открыли новую картину!</string>
+    <string name="dialog_cancel">позже</string>
+    <string name="dialog_show">посмотреть сейчас</string>
 
 </resources>

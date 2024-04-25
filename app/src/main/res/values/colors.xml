@@ -1,6 +1,7 @@
 <!--?xml version="1.0" encoding="UTF-8"?-->
 <resources>
   <color name="beige_500">#dfd0bb</color>
+  <color name="beige_500_transparent">#E6DFD0BB</color>
   <color name="beige_200">#ffffed</color>
   <color name="beige_700">#ad9f8b</color>
   <color name="bordo_accent">#943d2c</color>

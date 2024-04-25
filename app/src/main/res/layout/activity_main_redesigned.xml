@@ -39,7 +39,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/view"
 
-            android:backgroundTint="@color/beige_500"
+            android:backgroundTint="@color/beige_500_transparent"
             app:cardCornerRadius="@dimen/fab_margin"
 
             android:layout_marginTop="@dimen/main_card_margins"
@@ -164,7 +164,7 @@
             android:id="@+id/guidelineStart"
 
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="20dp"
+            app:layout_constraintGuide_begin="@dimen/main_activity_guideline"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
             android:id="@+id/guidelineEnd"
 
             android:orientation="vertical"
-            app:layout_constraintGuide_end="20dp"
+            app:layout_constraintGuide_end="@dimen/main_activity_guideline"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
