@@ -14,6 +14,7 @@
             android:name=".activities.Main"
             android:launchMode="singleTop"
             android:theme="@style/TransparentBarTheme"
+            android:exported="true"
         >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
